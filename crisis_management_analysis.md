@@ -1,9 +1,9 @@
-# Root Cause Analysis (RCA), Rekomendasi Operasional, & MarComm Plan: IELTS British Council Indonesia (Meta Threads, Nov 2026)
+# Root Cause Analysis (RCA) & Rekomendasi Operasional: IELTS British Council Indonesia (Meta Threads, Nov 2026)
 
 - **Basis Data**: [threads_ielts_bc_indonesia_raw.md](file:///Users/apple/Desktop/IELTS_Threads_Crisis/threads_ielts_bc_indonesia_raw.md), [ielts_bc_threads_severity_worksheet.xlsx](file:///Users/apple/Desktop/IELTS_Threads_Crisis/ielts_bc_threads_severity_worksheet.xlsx), [thematic_analysis_report.md](file:///Users/apple/Desktop/IELTS_Threads_Crisis/thematic_analysis_report.md)
 - **Dashboard Interaktif**: [index.html](file:///Users/apple/Desktop/IELTS_Threads_Crisis/index.html) (`http://127.0.0.1:8765/`)
 - **Periode Observasi**: 25 Oktober – 25 November 2026 (**55 item terkode**: 30 Negative [54,5%], 12 Positive/Counter [21,8%], 7 Neutral/Info [12,7%], 6 Anxious/Mixed [10,9%])
-- **Catatan Epistemik**: Kutipan, akun, angka interaksi, tanggal, dan insiden merujuk langsung pada data Meta Threads yang teramati. Langkah kausal pada RCA/*5 Whys*, rekomendasi operasional, dan rencana MarComm merupakan **inferensi dan rancangan strategis** berbasis bukti tersebut.
+- **Catatan Epistemik**: Kutipan, akun, angka interaksi, tanggal, dan insiden merujuk langsung pada data Meta Threads yang teramati. Langkah kausal pada RCA/*5 Whys* dan rekomendasi operasional merupakan **inferensi dan rancangan strategis** berbasis bukti tersebut.
 
 ---
 
@@ -97,59 +97,3 @@ Dari **31 item** pada Tema T1–T4 (di luar 6 item efek rambatan T5 dan 18 item 
 ### D. SDM & Layanan Pelanggan (*Proctor & Staff Conduct*)
 1. **SOP Anti-Blaming saat Gangguan Teknis**: Larang keras staf menyalahkan jaringan peserta/Indonesia saat *Zoom lag* terjadi; wajibkan verifikasi koneksi pusat tes terlebih dahulu dan dokumentasikan *incident ticket* untuk proteksi skor peserta.
 2. **Pelatihan *Service Recovery* & Etika Ruang Tes**: Latih ulang pengawas dalam hal komunikasi empatik (meminta izin sebelum menyentuh perangkat/headset peserta, menanggapi keluhan volume/layar secara cepat).
-
----
-
-## 4. MarComm & PR Crisis Management Plan
-
-### A. Tujuan Komunikasi & Prinsip SCCT
-- **Strategi Utama**: Kombinasi **Rebuild** (transparansi perbaikan nyata + jaminan hak peserta + resolusi kasus tertunda) dan **Bolstering** (mengangkat standar profesionalisme penguji dan kualitas cabang unggulan secara faktual tanpa menafikan keluhan peserta).
-- **Target Utama dalam 30 Hari**: Menurunkan sentimen negatif di Threads dari **54,5% → <20%**, mempertahankan tingkat kehadiran/*retention* peserta terdaftar Nov–Des 2026, dan memulihkan kepercayaan komunitas pengajar/lembaga persiapan IELTS.
-
-### B. Pemetaan Audiens & Pesan Kunci (*Messaging Matrix*)
-
-| Segmen Audiens | Kekhawatiran Utama | Pesan Kunci (*Key Message*) | Kanal Utama |
-| --- | --- | --- | --- |
-| **1. Peserta Terdaftar (Nov–Des 2026)** | Takut *Speaking online* ngelag, *headset* tidak nyaman, atau skor tidak adil (`@thriveward`, `@fudreee`). | *"Kami menjaga standar kenyamanan & jaringan seluruh ruang tes. Anda berhak melapor langsung ke pengawas jika audio/layar bermasalah dan mendapat penanganan segera."* | Email & WhatsApp Blast H-3, SMS, Banner Website |
-| **2. Komunitas Pengajar & Lembaga Prep** | Pola nilai Writing/Speaking 3–4 bulan terakhir & reputasi rekomendasi ke murid (`@qhajarahmad`, `@rennyanggraini`). | *"Masukan pengajar adalah prioritas QA kami. Kami membuka audit teknis cabang, transparansi mekanisme EOR (refund 100% jika skor naik), dan dialog langsung bersama pengajar."* | Undangan *Partner Briefing* / Webinar QA, Direct Outreach |
-| **3. Peserta Terdampak Hasil / TRF / EOR** | Hasil 14 Nov tertunda (`@ydharma`), verifikasi TRF beasiswa (`@cassandra_renata`), biaya EOR. | *"Tim layanan khusus siap menuntaskan hasil tertunda dan mendampingi verifikasi TRF beasiswa dalam <24 jam melalui jalur eskalasi prioritas."* | Email Priority Support, WhatsApp Care, DM IG |
-| **4. Publik Luas & Calon Pendaftar (Threads/IG)** | Kekosongan informasi resmi & manuver kompetitor (`@englishstudio`). | *"British Council Indonesia berkomitmen pada penilaian IELTS berstandar global yang adil, transparan, dan terus membenahi kenyamanan seluruh pusat tes."* | Instagram Resmi, Web FAQ, Aktivasi/Monitoring Threads |
-
-### C. Template Pesan Siap Pakai (*Holding Statement & Pre-Test Reassurance*)
-
-#### 1. Holding Statement Publik (Instagram / Web / Threads Resmi)
-> **Komitmen Kami atas Pengalaman Tes IELTS Anda di Indonesia**
->
-> Dalam beberapa hari terakhir, kami menyimak dengan saksama seluruh masukan peserta dan pengajar terkait pengalaman tes IELTS di Indonesia, khususnya mengenai pelaksanaan *Speaking* daring, kenyamanan perangkat di beberapa lokasi, serta waktu rilis hasil.
->
-> Kami memohon maaf atas ketidaknyamanan yang dialami sebagian peserta. Setiap masukan menjadi prioritas evaluasi kami bersama tim *Quality Assurance* dan pengelola pusat tes di Jakarta, Yogyakarta, Bandung, Surabaya, dan kota lainnya. Saat ini kami tengah menjalankan audit teknis jaringan dan perangkat ruang tes, serta memastikan:
-> 1. Kendala teknis dari sisi pusat tes ditangani langsung di tempat tanpa merugikan peserta.
-> 2. Hasil tes yang masih tertunda segera diselesaikan melalui jalur prioritas.
-> 3. Mekanisme *Enquiry on Results (EOR)* berjalan transparan dengan pengembalian biaya penuh apabila terjadi perubahan skor.
->
-> Jika Anda mengalami kendala hasil tes, verifikasi TRF beasiswa, atau kendala hari H, silakan hubungi tim layanan prioritas kami melalui **[Link/Email Resmi CS BC Indonesia]** dengan menyertakan nomor referensi tes Anda.
-
-#### 2. Pesan Proaktif untuk Peserta Terdaftar (Email / WhatsApp H-3 Sebelum Ujian)
-> **Persiapan Tes IELTS Anda di British Council Indonesia — Informasi Penting Hari H**
->
-> Halo [Nama Peserta], menjelang jadwal tes IELTS Anda pada [Tanggal] di [Lokasi Tes], berikut hal-hal yang perlu diketahui agar tes berjalan nyaman:
-> - **Format Speaking**: Sesi *Speaking* dilaksanakan secara daring (*video call*) dengan penguji terakreditasi menggunakan *headset* yang telah disiapkan di ruang tes.
-> - **Hak Kenyamanan Teknis**: Apabila layar terlalu gelap, suara *headset* kurang jelas, atau koneksi video terganggu saat ujian berlangsung, **segera angkat tangan dan beri tahu pengawas** agar dapat ditangani saat itu juga.
-> - **Rilis Hasil & Verifikasi Beasiswa**: Hasil *computer-based* umumnya tersedia dalam **1–2 hari kalender** (dan dapat diverifikasi langsung oleh institusi/beasiswa melalui portal resmi IELTS). Jika melewati batas waktu atau memerlukan bantuan verifikasi TRF, hubungi [Kontak Prioritas].
-
-### D. Rencana Taktis MarComm 30 Hari
-
-| Fase | Aktivitas MarComm & PR | PIC Utama | Output / Deliverable |
-| --- | --- | --- | --- |
-| **Hari 1 (0–24 Jam)** | 1. Publikasikan *Holding Statement* di IG/Web resmi & kirim *Pre-Test Reassurance* ke seluruh pendaftar 14 hari ke depan.<br>2. Buka *Priority Care Desk* khusus kasus hasil tertunda (14 Nov) dan verifikasi TRF beasiswa.<br>3. Aktifkan pemantauan *real-time* Threads (`ielts british council`, `IELTS BC`, `tes di BC`). | Corporate Comms, Customer Care | Holding Statement live; 100% pendaftar H-14 menerima briefing; daftar tiket kasus prioritas. |
-| **Hari 2–7 (Stabilisasi)** | 1. Rilis konten edukasi *"Behind the IELTS Standard"* (cara kerja kalibrasi penguji, arti interupsi saat Speaking, cara kerja EOR & *score breakdown*).<br>2. Evaluasi dan aktivasi akun resmi terverifikasi di Meta Threads (menggantikan celah `@idbritishcouncil` 404) dengan SLA balas <2 jam.<br>3. Lakukan *1-on-1 outreach* ke pengajar/mitra IELTS vokal untuk mendengarkan data lapangan dan membagikan progres perbaikan cabang. | Social Media Team, Partner Relations, Academic QA | 3 konten edukasi; SOP respons Threads; ringkasan masukan dari minimal 10 mitra/pengajar IELTS. |
-| **Hari 8–30 (Pemulihan)** | 1. Selenggarakan *IELTS Educator QA Briefing* (webinar/roundtable tertutup bersama guru & lembaga persiapan IELTS).<br>2. Publikasikan pembaruan peningkatan fasilitas cabang (*"Facility Upgrade Update"* di Jogja, Bandung, Salemba) serta testimoni organik peserta di venue unggulan.<br>3. Pantau pergeseran sentimen mingguan dan *booking retention* vs. kompetitor. | MarComm Lead, Operations QA, Brand Marketing | Laporan perbaikan cabang; penurunan rasio sentimen negatif Threads ke <20%. |
-
-### E. KPI Evaluasi MarComm & Operasional
-
-| Indikator | Baseline (23–25 Nov 2026) | Target 7 Hari | Target 30 Hari |
-| --- | --- | --- | --- |
-| **Rasio Sentimen Negatif Threads** | **54,5%** (30/55 item) | <35% | **<20%** |
-| **Keberadaan & Respons Resmi di Threads** | **0%** (`@idbritishcouncil` 404) | Akun/pemantauan aktif, SLA <4 jam | SLA respons **<2 jam** pada jam kerja |
-| **Penyelesaian Kasus Hasil Tertunda & TRF** | Kasus 14 Nov belum selesai (`@ydharma`) | **100%** kasus tertunda tuntas | Zero backlog >H+3 tanpa notifikasi |
-| **Pembatalan / Penundaan Pendaftar Terdaftar** | Lonjakan kecemasan (`@thriveward`, `@fudreee`, `@going_to974`) | Penurunan tiket ragu pasca-briefing H-3 | Stabil kembali ke baseline pra-krisis |
