@@ -430,6 +430,24 @@
     .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; font-size: 0.83rem; margin-bottom: 12px; }
     .meta-pill { background: var(--surface-alt); padding: 8px 11px; border-radius: 8px; }
 
+    /* Theme Knowledge Graph */
+    .kg-wrap { width: 100%; overflow-x: auto; }
+    .kg-svg { display: block; width: 100%; min-width: 720px; height: auto; }
+    .kg-edge { fill: none; transition: opacity 0.18s ease, stroke-width 0.18s ease; }
+    .kg-node { cursor: pointer; transition: opacity 0.18s ease; }
+    .kg-node:focus-visible circle { stroke: var(--text); stroke-width: 3px; }
+    .kg-dim { opacity: 0.16; }
+    .kg-active { opacity: 1; }
+    .kg-readout {
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      background: var(--surface-alt);
+      font-size: 0.83rem;
+      color: var(--muted);
+      min-height: 36px;
+    }
+
     footer { margin-top: 30px; font-size: 0.8rem; color: var(--muted); text-align: center; }
   </style>
 </head>
@@ -532,6 +550,21 @@
             </div>
           </form>
         </search>
+
+        <article class="card" id="kg-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; margin-bottom:8px;">
+            <div>
+              <h2 id="kg-title" style="margin:0 0 4px;"></h2>
+              <p class="card-sub" id="kg-sub" style="margin:0;"></p>
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="pill-btn kg-mode-btn" data-kgmode="venue" aria-pressed="true" id="kg-mode-venue"></button>
+              <button type="button" class="pill-btn kg-mode-btn" data-kgmode="actors" aria-pressed="false" id="kg-mode-actors"></button>
+            </div>
+          </div>
+          <div class="kg-wrap" id="kg-container"></div>
+          <div class="kg-readout" id="kg-readout" aria-live="polite"></div>
+        </article>
 
         <div class="table-wrap">
           <table>
@@ -748,6 +781,12 @@
         verbatimTransLbl: "Terjemahan Bahasa Inggris (EN):",
         btnToEn: "Terjemahkan ke EN",
         btnToOrig: "Tampilkan Asli (ID)",
+        kgTitle: "Knowledge Graph Tema & Keterkaitan Insiden",
+        kgSub: "Grafik diperbarui otomatis mengikuti filter Explorer. Arahkan kursor untuk melihat koneksi; klik simpul untuk memfilter tabel.",
+        kgModeVenue: "Severity ↔ Tema ↔ Lokasi",
+        kgModeActors: "Tema ↔ Aktor Kunci (Top Handles)",
+        kgDefaultReadout: "Arahkan kursor atau fokus pada simpul mana saja untuk menyoroti hubungan; klik simpul untuk memfilter Explorer.",
+        kgEmpty: "Tidak ada node untuk filter saat ini.",
         footer: "Data Meta Threads (25 Okt – 25 Nov 2026) | Bahasa UI dapat diganti ID/EN; konten postingan tetap asli ID dengan opsi terjemahan."
       },
       en: {
@@ -832,6 +871,12 @@
         verbatimTransLbl: "English Translation (EN):",
         btnToEn: "Translate to EN",
         btnToOrig: "Show Original (ID)",
+        kgTitle: "Theme & Incident Knowledge Graph",
+        kgSub: "Updates live with Explorer filters. Hover or focus any node to inspect links; click a node to filter the table.",
+        kgModeVenue: "Severity ↔ Themes ↔ Venues",
+        kgModeActors: "Themes ↔ Key Actors (Top Handles)",
+        kgDefaultReadout: "Hover or focus on any node to highlight its connections; click a node to filter the Explorer table.",
+        kgEmpty: "No nodes match the current filters.",
         footer: "Meta Threads Data (Oct 25 – Nov 25, 2026) | Switch UI/findings between ID & EN; original posts remain in Indonesian with on-demand translation."
       }
     };
@@ -968,6 +1013,10 @@
       document.getElementById("q").placeholder = t.expPlaceholder;
       document.getElementById("reset-filters").textContent = t.resetFilters;
       document.querySelector('.pill-btn[data-sev="ALL"]').textContent = t.allSevPill;
+      document.getElementById("kg-title").textContent = t.kgTitle;
+      document.getElementById("kg-sub").textContent = t.kgSub;
+      document.getElementById("kg-mode-venue").textContent = t.kgModeVenue;
+      document.getElementById("kg-mode-actors").textContent = t.kgModeActors;
 
       const themeSelect = document.getElementById("filter-theme");
       const prevTheme = state.theme;
@@ -1217,9 +1266,217 @@
       return list;
     }
 
+    let kgMode = "venue";
+    document.querySelectorAll(".kg-mode-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        kgMode = btn.dataset.kgmode;
+        document.querySelectorAll(".kg-mode-btn").forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+        renderThemeKnowledgeGraph(getFilteredItems());
+      });
+    });
+
+    function normalizeVenueCluster(venue) {
+      const v = String(venue || "").toLowerCase();
+      if (v.includes("jogja") || v.includes("yogyakarta") || v.includes("uii")) return "Yogyakarta";
+      if (v.includes("jakarta") || v.includes("salemba") || v.includes("kuningan") || v.includes("pondok indah") || v.includes("senopati") || v.includes("bc ui")) return "Jakarta";
+      if (v.includes("bandung")) return "Bandung";
+      if (v.includes("surabaya") || v.includes("unimed") || v.includes("medan")) return "Surabaya / Medan";
+      if (v.includes("copenhagen")) return "Denmark (Contrast)";
+      if (v.includes("idp") && !v.includes("bc")) return "Mitra IDP";
+      return "BC Indonesia (General)";
+    }
+
+    function renderThemeKnowledgeGraph(list) {
+      const t = I18N[lang];
+      const box = document.getElementById("kg-container");
+      const readout = document.getElementById("kg-readout");
+      readout.textContent = t.kgDefaultReadout;
+      if (!list.length) {
+        box.innerHTML = `<p class="subtitle" style="text-align:center; padding:24px;">${escapeHtml(t.kgEmpty)}</p>`;
+        return;
+      }
+
+      const w = 1000, h = 400;
+      const themesPresent = DATA.themes.map(th => {
+        const sub = list.filter(i => i.theme === th.name);
+        return { id: th.name, short: th.name.split(":")[0], full: lang === "en" ? th.name_en : th.name, count: sub.length, likes: sub.reduce((s, i) => s + (i.likes || 0), 0) };
+      }).filter(x => x.count > 0);
+
+      const themeColor = id => id.startsWith("T1") ? "var(--critical)" : (id.startsWith("T2") || id.startsWith("T3")) ? "var(--high)" : id.startsWith("T6") ? "var(--low)" : "var(--accent)";
+
+      let nodes = [];
+      let edges = [];
+
+      if (kgMode === "venue") {
+        const sevs = ["Critical", "High", "Medium", "Low"].map(s => ({
+          id: `SEV:${s}`, raw: s, label: s, count: list.filter(i => i.severity === s).length, color: SEV_COLORS[s]
+        })).filter(x => x.count > 0);
+
+        const venueMap = {};
+        list.forEach(i => {
+          const vc = normalizeVenueCluster(i.venue);
+          venueMap[vc] = (venueMap[vc] || 0) + 1;
+        });
+        const venues = Object.entries(venueMap).sort((a, b) => b[1] - a[1]).map(([v, cnt]) => ({
+          id: `VEN:${v}`, raw: v, label: v, count: cnt, color: "var(--muted)"
+        }));
+
+        const placeCol = (arr, x, kind) => arr.forEach((n, idx) => {
+          const y = ((idx + 1) / (arr.length + 1)) * (h - 44) + 22;
+          nodes.push({ ...n, x, y, kind, r: Math.min(24, 11 + Math.sqrt(n.count) * 3.2) });
+        });
+        placeCol(sevs, 140, "severity");
+        placeCol(themesPresent, 460, "theme");
+        placeCol(venues, 750, "venue");
+
+        // Edges: Severity -> Theme and Theme -> Venue
+        const eSevTh = {};
+        const eThVen = {};
+        list.forEach(i => {
+          const k1 = `SEV:${i.severity}||${i.theme}`;
+          eSevTh[k1] = (eSevTh[k1] || 0) + 1;
+          const k2 = `${i.theme}||VEN:${normalizeVenueCluster(i.venue)}`;
+          eThVen[k2] = (eThVen[k2] || 0) + 1;
+        });
+        Object.entries(eSevTh).forEach(([k, wgt]) => {
+          const [a, b] = k.split("||");
+          edges.push({ from: a, to: b, weight: wgt, color: SEV_COLORS[a.replace("SEV:", "")] });
+        });
+        Object.entries(eThVen).forEach(([k, wgt]) => {
+          const [a, b] = k.split("||");
+          edges.push({ from: a, to: b, weight: wgt, color: themeColor(a) });
+        });
+      } else {
+        // Mode: Themes <-> Top Handles
+        const handleStats = {};
+        list.forEach(i => {
+          if (!handleStats[i.handle]) handleStats[i.handle] = { count: 0, score: 0, sev: i.severity };
+          handleStats[i.handle].count += 1;
+          handleStats[i.handle].score += (i.likes || 0) + (i.views || 0) / 1000 + (i.severity === "Critical" ? 500 : i.severity === "High" ? 100 : 10);
+        });
+        const topHandles = Object.entries(handleStats).sort((a, b) => b[1].score - a[1].score).slice(0, 10)
+          .map(([hdl, st]) => ({ id: `ACT:${hdl}`, raw: hdl, label: hdl, count: st.count, color: SEV_COLORS[st.sev] }));
+
+        const placeCol = (arr, x, kind) => arr.forEach((n, idx) => {
+          const y = ((idx + 1) / (arr.length + 1)) * (h - 44) + 22;
+          nodes.push({ ...n, x, y, kind, r: Math.min(25, 11 + Math.sqrt(n.count) * 3.5) });
+        });
+        placeCol(themesPresent, 270, "theme");
+        placeCol(topHandles, 720, "actor");
+
+        const eThAct = {};
+        const topSet = new Set(topHandles.map(a => a.raw));
+        list.forEach(i => {
+          if (topSet.has(i.handle)) {
+            const k = `${i.theme}||ACT:${i.handle}`;
+            eThAct[k] = (eThAct[k] || 0) + 1;
+          }
+        });
+        Object.entries(eThAct).forEach(([k, wgt]) => {
+          const [a, b] = k.split("||");
+          edges.push({ from: a, to: b, weight: wgt, color: themeColor(a) });
+        });
+      }
+
+      const nodeById = Object.fromEntries(nodes.map(n => [n.id, n]));
+      const svgEdges = edges.map(e => {
+        const a = nodeById[e.from], b = nodeById[e.to];
+        if (!a || !b) return "";
+        const dx = (b.x - a.x) * 0.45;
+        const d = `M ${a.x} ${a.y} C ${a.x + dx} ${a.y}, ${b.x - dx} ${b.y}, ${b.x} ${b.y}`;
+        const sw = Math.min(7, 1.3 + e.weight * 0.65);
+        return `<path class="kg-edge" data-from="${escapeHtml(e.from)}" data-to="${escapeHtml(e.to)}" data-w="${e.weight}" d="${d}" stroke="${e.color}" stroke-opacity="0.38" stroke-width="${sw.toFixed(1)}" />`;
+      }).join("");
+
+      const svgNodes = nodes.map(n => {
+        const fill = n.kind === "theme" ? themeColor(n.id) : n.color;
+        const lblText = n.kind === "theme" ? `${n.short} (${n.count})` : `${n.label} (${n.count})`;
+        const textAnchor = n.kind === "theme" ? "middle" : (n.x < 300 ? "start" : "end");
+        const tx = n.kind === "theme" ? n.x : (n.x < 300 ? n.x - n.r - 6 : n.x + n.r + 6);
+        const ty = n.kind === "theme" ? n.y + n.r + 14 : n.y + 4;
+        const clampedTx = Math.max(8, Math.min(w - 8, tx));
+        const anchorFinal = n.kind === "theme" ? "middle" : (n.x < 300 ? "end" : "start");
+        const posTx = n.kind === "theme" ? n.x : (n.x < 300 ? n.x - n.r - 7 : n.x + n.r + 7);
+        return `
+          <g class="kg-node" role="button" tabindex="0" data-nid="${escapeHtml(n.id)}" data-kind="${n.kind}" data-raw="${escapeHtml(n.raw || n.id)}" data-full="${escapeHtml(n.full || n.label)}" data-cnt="${n.count}" aria-label="${escapeHtml(lblText)}">
+            <circle cx="${n.x}" cy="${n.y}" r="${n.r.toFixed(1)}" fill="${fill}" fill-opacity="0.9" stroke="var(--surface)" stroke-width="2" />
+            <text x="${posTx}" y="${ty}" text-anchor="${anchorFinal}" font-size="11.5" font-weight="600" fill="var(--text)">${escapeHtml(lblText)}</text>
+          </g>
+        `;
+      }).join("");
+
+      box.innerHTML = `
+        <svg class="kg-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${escapeHtml(t.kgTitle)}">
+          ${svgEdges}
+          ${svgNodes}
+        </svg>
+      `;
+
+      const allNodes = Array.from(box.querySelectorAll(".kg-node"));
+      const allEdges = Array.from(box.querySelectorAll(".kg-edge"));
+
+      function highlightNode(nid, fullLabel, cnt) {
+        const connected = new Set([nid]);
+        const links = [];
+        allEdges.forEach(e => {
+          const match = e.dataset.from === nid || e.dataset.to === nid;
+          e.classList.toggle("kg-dim", !match);
+          e.setAttribute("stroke-opacity", match ? "0.85" : "0.08");
+          if (match) {
+            connected.add(e.dataset.from);
+            connected.add(e.dataset.to);
+            const otherId = e.dataset.from === nid ? e.dataset.to : e.dataset.from;
+            const otherNode = nodeById[otherId];
+            if (otherNode) links.push(`${otherNode.short || otherNode.label} (${e.dataset.w})`);
+          }
+        });
+        allNodes.forEach(nd => nd.classList.toggle("kg-dim", !connected.has(nd.dataset.nid)));
+        readout.textContent = `${fullLabel} — ${cnt} ${lang === "en" ? "items" : "item"} | ${lang === "en" ? "Connected:" : "Terhubung:"} ${links.join(", ")}`;
+      }
+
+      function clearHighlight() {
+        allEdges.forEach(e => { e.classList.remove("kg-dim"); e.setAttribute("stroke-opacity", "0.38"); });
+        allNodes.forEach(nd => nd.classList.remove("kg-dim"));
+        readout.textContent = t.kgDefaultReadout;
+      }
+
+      function applyNodeFilter(nd) {
+        const kind = nd.dataset.kind;
+        const raw = nd.dataset.raw;
+        if (kind === "theme") {
+          state.theme = state.theme === raw ? "ALL" : raw;
+          document.getElementById("filter-theme").value = state.theme;
+          renderExplorer();
+        } else if (kind === "severity") {
+          setSeverityFilter(state.severity === raw ? "ALL" : raw);
+        } else if (kind === "venue") {
+          const term = raw.includes("Jakarta") ? "Jakarta" : raw.includes("Surabaya") ? "Surabaya" : raw.includes("General") ? "BC Indonesia" : raw.split(" ")[0];
+          state.query = state.query === term ? "" : term;
+          document.getElementById("q").value = state.query;
+          renderExplorer();
+        } else if (kind === "actor") {
+          state.query = state.query === raw ? "" : raw;
+          document.getElementById("q").value = state.query;
+          renderExplorer();
+        }
+      }
+
+      allNodes.forEach(nd => {
+        nd.addEventListener("mouseenter", () => highlightNode(nd.dataset.nid, nd.dataset.full, nd.dataset.cnt));
+        nd.addEventListener("focus", () => highlightNode(nd.dataset.nid, nd.dataset.full, nd.dataset.cnt));
+        nd.addEventListener("mouseleave", clearHighlight);
+        nd.addEventListener("blur", clearHighlight);
+        nd.addEventListener("click", () => applyNodeFilter(nd));
+        nd.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); applyNodeFilter(nd); }
+        });
+      });
+    }
+
     function renderExplorer() {
       const t = I18N[lang];
       const list = getFilteredItems();
+      renderThemeKnowledgeGraph(list);
       document.getElementById("result-count").textContent = t.showingCount(list.length, DATA.items.length);
       const tbody = document.getElementById("explorer-tbody");
       if (!list.length) {
