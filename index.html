@@ -1296,7 +1296,7 @@
         return;
       }
 
-      const w = 1000, h = 400;
+      const w = 1000, h = 440;
       const themesPresent = DATA.themes.map(th => {
         const sub = list.filter(i => i.theme === th.name);
         return { id: th.name, short: th.name.split(":")[0], full: lang === "en" ? th.name_en : th.name, count: sub.length, likes: sub.reduce((s, i) => s + (i.likes || 0), 0) };
@@ -1391,12 +1391,10 @@
       const svgNodes = nodes.map(n => {
         const fill = n.kind === "theme" ? themeColor(n.id) : n.color;
         const lblText = n.kind === "theme" ? `${n.short} (${n.count})` : `${n.label} (${n.count})`;
-        const textAnchor = n.kind === "theme" ? "middle" : (n.x < 300 ? "start" : "end");
-        const tx = n.kind === "theme" ? n.x : (n.x < 300 ? n.x - n.r - 6 : n.x + n.r + 6);
-        const ty = n.kind === "theme" ? n.y + n.r + 14 : n.y + 4;
-        const clampedTx = Math.max(8, Math.min(w - 8, tx));
-        const anchorFinal = n.kind === "theme" ? "middle" : (n.x < 300 ? "end" : "start");
-        const posTx = n.kind === "theme" ? n.x : (n.x < 300 ? n.x - n.r - 7 : n.x + n.r + 7);
+        const centerTheme = n.kind === "theme" && kgMode === "venue";
+        const ty = centerTheme ? n.y + n.r + 14 : n.y + 4;
+        const anchorFinal = centerTheme ? "middle" : (n.x < 400 ? "end" : "start");
+        const posTx = centerTheme ? n.x : (n.x < 400 ? n.x - n.r - 8 : n.x + n.r + 8);
         return `
           <g class="kg-node" role="button" tabindex="0" data-nid="${escapeHtml(n.id)}" data-kind="${n.kind}" data-raw="${escapeHtml(n.raw || n.id)}" data-full="${escapeHtml(n.full || n.label)}" data-cnt="${n.count}" aria-label="${escapeHtml(lblText)}">
             <circle cx="${n.x}" cy="${n.y}" r="${n.r.toFixed(1)}" fill="${fill}" fill-opacity="0.9" stroke="var(--surface)" stroke-width="2" />
@@ -1537,11 +1535,11 @@
 
     function setSeverityFilter(sev) {
       state.severity = sev;
-      document.querySelectorAll(".pill-btn").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.sev === sev)));
+      document.querySelectorAll("#sev-pills .pill-btn").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.sev === sev)));
       renderExplorer();
     }
 
-    document.querySelectorAll(".pill-btn").forEach(btn => btn.addEventListener("click", () => setSeverityFilter(btn.dataset.sev)));
+    document.querySelectorAll("#sev-pills .pill-btn").forEach(btn => btn.addEventListener("click", () => setSeverityFilter(btn.dataset.sev)));
     document.getElementById("q").addEventListener("input", e => { state.query = e.target.value; renderExplorer(); });
     document.getElementById("filter-theme").addEventListener("change", e => { state.theme = e.target.value; renderExplorer(); });
     document.getElementById("filter-sentiment").addEventListener("change", e => { state.sentiment = e.target.value; renderExplorer(); });
