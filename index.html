@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IELTS British Council Indonesia — Meta Threads Crisis Intelligence</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-alt: #f0f4fa;
+      --border: #dce3ee;
+      --text: #162032;
+      --muted: #526075;
+      --accent: #1d4ed8;
+      --accent-soft: #e8efff;
+      --critical: #b91c1c;
+      --critical-bg: #fef2f2;
+      --high: #c2410c;
+      --high-bg: #fff7ed;
+      --medium: #1d4ed8;
+      --medium-bg: #eff6ff;
+      --low: #15803d;
+      --low-bg: #f0fdf4;
+      --shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+      --radius: 12px;
+      --drop-color: #1d4ed8;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #0b1220;
+      --surface: #131c2e;
+      --surface-alt: #1a253b;
+      --border: #26344d;
+      --text: #e6edf7;
+      --muted: #98a8c2;
+      --accent: #60a5fa;
+      --accent-soft: #172a4a;
+      --critical: #f87171;
+      --critical-bg: #3b1518;
+      --high: #fb923c;
+      --high-bg: #3b2110;
+      --medium: #60a5fa;
+      --medium-bg: #172a4a;
+      --low: #4ade80;
+      --low-bg: #113221;
+      --shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+      --drop-color: #60a5fa;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    html.dragging-active, html.dragging-active * { cursor: grabbing !important; }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .container { max-width: 1320px; margin: 0 auto; padding: 20px 20px 48px; }
+
+    /* Header */
+    .site-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 20px;
+    }
+    .header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    h1 { margin: 0 0 4px; font-size: 1.36rem; line-height: 1.25; letter-spacing: -0.01em; }
+    .subtitle { margin: 0; font-size: 0.85rem; color: var(--muted); }
+    .header-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+    button { font: inherit; cursor: pointer; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.83rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+    .btn:hover:not(:disabled) { background: var(--surface-alt); }
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .btn-sm { padding: 4px 8px; font-size: 0.76rem; border-radius: 6px; }
+    .btn-primary { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    html[data-theme="dark"] .btn-primary { color: #081226; }
+    .btn-primary:hover:not(:disabled) { filter: brightness(1.08); background: var(--accent); }
+
+    .btn-info {
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    }
+
+    .lang-switch {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: var(--surface-alt);
+    }
+    .lang-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    .lang-btn[aria-pressed="true"] {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    html[data-theme="dark"] .lang-btn[aria-pressed="true"] { color: #081226; }
+
+    /* KPI Strip */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin: 18px 0 22px;
+    }
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px 17px;
+      box-shadow: var(--shadow);
+    }
+    .kpi-label { font-size: 0.77rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+    .kpi-value { font-size: 1.7rem; font-weight: 700; margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
+    .kpi-meta { font-size: 0.8rem; color: var(--muted); }
+
+    /* Accessible Tabs */
+    .tablist {
+      display: flex;
+      overflow-x: auto;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+      scrollbar-width: thin;
+    }
+    .tablist [role="tab"] {
+      flex: none;
+      position: relative;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: 11px 15px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .tablist [role="tab"]:hover { color: var(--text); }
+    .tablist [role="tab"][aria-selected="true"] { color: var(--accent); }
+    .tablist [role="tab"][aria-selected="true"]::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      border-block-end: 3px solid var(--accent);
+    }
+
+    .panel-body { display: grid; gap: 20px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 18px; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+    .card h2, .card h3 { margin: 0 0 6px; font-size: 1.05rem; }
+    .card-sub { margin: 0 0 14px; font-size: 0.84rem; color: var(--muted); }
+
+    /* Bars */
+    .bar-list { display: grid; gap: 10px; }
+    .bar-row { display: grid; gap: 5px; }
+    .bar-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 0.84rem; }
+    .bar-btn { text-align: left; background: none; border: none; padding: 0; color: var(--text); font-weight: 600; }
+    .bar-btn:hover { color: var(--accent); text-decoration: underline; }
+    .bar-track { height: 11px; background: var(--surface-alt); border-radius: 999px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 999px; transition: width 0.3s ease; }
+
+    /* Timeline */
+    .timeline-wrap { width: 100%; overflow-x: auto; }
+    .timeline-tooltip { min-height: 22px; font-size: 0.84rem; color: var(--muted); margin-top: 8px; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .sev-Critical, .prio-P0 { background: var(--critical-bg); color: var(--critical); }
+    .sev-High, .prio-P1 { background: var(--high-bg); color: var(--high); }
+    .sev-Medium, .prio-P2 { background: var(--medium-bg); color: var(--medium); }
+    .sev-Low, .prio-P3 { background: var(--low-bg); color: var(--low); }
+
+    /* Forms & Toolbars */
+    .filter-toolbar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 15px 16px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 11px;
+    }
+    .filter-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .input, .select {
+      padding: 7px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      font: inherit;
+      font-size: 0.86rem;
+    }
+    .input { flex: 1 1 220px; }
+    .pill-group { display: flex; flex-wrap: wrap; gap: 6px; }
+    .pill-btn {
+      padding: 6px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      font-size: 0.81rem;
+      font-weight: 600;
+    }
+    .pill-btn[aria-pressed="true"] { background: var(--accent); color: #ffffff; border-color: var(--accent); }
+    html[data-theme="dark"] .pill-btn[aria-pressed="true"] { color: #081226; }
+
+    /* Table */
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+    th { background: var(--surface-alt); font-size: 0.77rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); white-space: nowrap; }
+    tbody tr:hover { background: color-mix(in srgb, var(--accent-soft) 50%, transparent); }
+    .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+    /* Interactive Prioritization & Action Board */
+    .board-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+    .board-col {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .board-col-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .drop-list {
+      position: relative;
+      display: grid;
+      gap: 10px;
+      min-height: 220px;
+      padding: 6px 2px;
+      border-radius: 10px;
+      transition: background 0.15s ease, outline-color 0.15s ease;
+    }
+    .drop-list.drop-target-hover {
+      background: color-mix(in srgb, var(--accent-soft) 65%, transparent);
+      outline: 2px dashed var(--drop-color);
+    }
+    .task-card {
+      position: relative;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 10px;
+      transition: box-shadow 0.15s ease, opacity 0.15s ease;
+    }
+    .task-card.is-dragging { opacity: 0.55; box-shadow: 0 10px 24px rgba(0,0,0,0.18); }
+    .task-card.is-done { opacity: 0.72; }
+    .task-card.is-done .task-title { text-decoration: line-through; }
+
+    .drag-handle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 36px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      cursor: grab;
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+    .drag-handle:hover, .drag-handle:focus-visible { color: var(--accent); background: var(--accent-soft); }
+
+    .task-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 5px; }
+    .task-title { font-weight: 700; font-size: 0.9rem; margin: 0 0 4px; }
+    .task-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+    .score-chip {
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+    .mini-select {
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.76rem;
+    }
+
+    /* Accordions & Templates */
+    .accordion-stack { display: grid; gap: 10px; }
+    details {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 13px 16px;
+      box-shadow: var(--shadow);
+    }
+    summary { font-weight: 700; font-size: 0.95rem; cursor: pointer; }
+    details[open] summary { margin-bottom: 10px; color: var(--accent); }
+    .why-list { margin: 0; padding-left: 20px; display: grid; gap: 7px; font-size: 0.89rem; }
+
+    pre.template-box {
+      margin: 10px 0;
+      padding: 12px 14px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      white-space: pre-wrap;
+      font-family: inherit;
+      font-size: 0.87rem;
+      line-height: 1.55;
+    }
+
+    /* Native Dialog */
+    dialog {
+      max-width: 720px;
+      width: calc(100vw - 32px);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 20px 22px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+    }
+    dialog:modal { overscroll-behavior: contain; }
+    dialog::backdrop {
+      background: rgba(10, 15, 28, 0.6);
+      backdrop-filter: blur(2px);
+      overflow: hidden;
+      overscroll-behavior: contain;
+    }
+    .dialog-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+    .dialog-head h2 { margin: 0; font-size: 1.12rem; }
+    blockquote.verbatim-box {
+      margin: 10px 0;
+      padding: 12px 14px;
+      border-left: 4px solid var(--accent);
+      background: var(--surface-alt);
+      border-radius: 6px;
+      font-size: 0.91rem;
+      white-space: pre-wrap;
+    }
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; font-size: 0.83rem; margin-bottom: 12px; }
+    .meta-pill { background: var(--surface-alt); padding: 8px 11px; border-radius: 8px; }
+
+    footer { margin-top: 30px; font-size: 0.8rem; color: var(--muted); text-align: center; }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div>
+        <h1 id="hdr-title">IELTS British Council Indonesia — Meta Threads Crisis Intelligence</h1>
+        <p class="subtitle" id="hdr-subtitle"></p>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn btn-info" id="open-methodology"></button>
+        <div class="lang-switch" role="group" aria-label="Language selector">
+          <button type="button" class="lang-btn" id="lang-id" data-lang="id" aria-pressed="true">ID</button>
+          <button type="button" class="lang-btn" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button type="button" class="btn" id="theme-toggle"></button>
+        <button type="button" class="btn btn-primary" id="export-csv"></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section aria-label="KPI Summary" class="kpi-grid" id="kpi-grid"></section>
+
+    <div class="tablist" role="tablist" aria-label="Analysis Navigation">
+      <button type="button" role="tab" id="tab-overview" aria-selected="true"></button>
+      <button type="button" role="tab" id="tab-explorer" aria-selected="false"></button>
+      <button type="button" role="tab" id="tab-themes" aria-selected="false"></button>
+      <button type="button" role="tab" id="tab-rca" aria-selected="false"></button>
+      <button type="button" role="tab" id="tab-board" aria-selected="false"></button>
+      <button type="button" role="tab" id="tab-marcomm" aria-selected="false"></button>
+    </div>
+
+    <p id="live-status" role="status" class="visually-hidden"></p>
+
+    <!-- PANEL 1: OVERVIEW -->
+    <section role="tabpanel" id="panel-overview" aria-labelledby="tab-overview" tabindex="0">
+      <div class="panel-body">
+        <article class="card" id="methodology-banner"></article>
+        <div class="grid-2">
+          <article class="card">
+            <h2 id="ov-sev-title"></h2>
+            <p class="card-sub" id="ov-sev-sub"></p>
+            <div class="bar-list" id="chart-severity"></div>
+          </article>
+          <article class="card">
+            <h2 id="ov-sent-title"></h2>
+            <p class="card-sub" id="ov-sent-sub"></p>
+            <div class="bar-list" id="chart-sentiment"></div>
+          </article>
+        </div>
+
+        <article class="card">
+          <h2 id="ov-tl-title"></h2>
+          <p class="card-sub" id="ov-tl-sub"></p>
+          <div class="timeline-wrap" id="timeline-chart"></div>
+          <div class="timeline-tooltip" id="timeline-tooltip" aria-live="polite"></div>
+        </article>
+
+        <div class="grid-2">
+          <article class="card">
+            <h2 id="ov-cat-title"></h2>
+            <p class="card-sub" id="ov-cat-sub"></p>
+            <div class="bar-list" id="chart-categories"></div>
+          </article>
+          <article class="card">
+            <h2 id="ov-br-title"></h2>
+            <p class="card-sub" id="ov-br-sub"></p>
+            <div id="branch-list" class="bar-list"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 2: EXPLORER -->
+    <section role="tabpanel" id="panel-explorer" aria-labelledby="tab-explorer" hidden>
+      <div class="panel-body">
+        <search>
+          <form class="filter-toolbar" id="filter-form">
+            <div class="filter-row">
+              <label for="q" class="subtitle" style="font-weight:600;" id="exp-search-lbl"></label>
+              <input id="q" class="input" type="search">
+              <select id="filter-theme" class="select" aria-label="Filter Theme"></select>
+              <select id="filter-sentiment" class="select" aria-label="Filter Sentiment"></select>
+              <select id="sort-by" class="select" aria-label="Sort By"></select>
+            </div>
+            <div class="filter-row" style="justify-content: space-between;">
+              <div class="pill-group" role="group" aria-label="Severity Filter" id="sev-pills">
+                <button type="button" class="pill-btn" data-sev="ALL" aria-pressed="true"></button>
+                <button type="button" class="pill-btn" data-sev="Critical" aria-pressed="false">Critical (6)</button>
+                <button type="button" class="pill-btn" data-sev="High" aria-pressed="false">High (15)</button>
+                <button type="button" class="pill-btn" data-sev="Medium" aria-pressed="false">Medium (16)</button>
+                <button type="button" class="pill-btn" data-sev="Low" aria-pressed="false">Low (18)</button>
+              </div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <span id="result-count" class="subtitle" style="font-weight:600;"></span>
+                <button type="button" class="btn" id="reset-filters"></button>
+              </div>
+            </div>
+          </form>
+        </search>
+
+        <div class="table-wrap">
+          <table>
+            <thead id="explorer-thead"></thead>
+            <tbody id="explorer-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 3: THEMATIC ANALYSIS -->
+    <section role="tabpanel" id="panel-themes" aria-labelledby="tab-themes" hidden>
+      <div class="panel-body">
+        <div class="grid-2" id="themes-grid"></div>
+      </div>
+    </section>
+
+    <!-- PANEL 4: RCA (5 WHYS & FISHBONE) -->
+    <section role="tabpanel" id="panel-rca" aria-labelledby="tab-rca" hidden>
+      <div class="panel-body" id="rca-container"></div>
+    </section>
+
+    <!-- PANEL 5: INTERACTIVE PRIORITIZATION & ACTION BOARD -->
+    <section role="tabpanel" id="panel-board" aria-labelledby="tab-board" hidden>
+      <div class="panel-body">
+        <search>
+          <form class="filter-toolbar" id="board-filter-form">
+            <div class="filter-row">
+              <label for="board-q" class="subtitle" style="font-weight:600;" id="brd-filter-lbl"></label>
+              <input id="board-q" class="input" type="search">
+              <select id="board-fn" class="select" aria-label="Filter Function"></select>
+              <select id="board-prio" class="select" aria-label="Filter Priority"></select>
+              <button type="button" class="btn btn-primary" id="sort-by-score"></button>
+            </div>
+            <div class="filter-row" style="justify-content:space-between;">
+              <div class="filter-row" style="flex:1 1 auto;">
+                <input id="new-task-title" class="input" type="text" style="max-width:340px;">
+                <select id="new-task-fn" class="select" aria-label="New Task Function"></select>
+                <button type="button" class="btn" id="add-task-btn"></button>
+              </div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                <button type="button" class="btn" id="export-plan-csv"></button>
+                <button type="button" class="btn" id="reset-board"></button>
+              </div>
+            </div>
+          </form>
+        </search>
+
+        <div class="board-grid">
+          <section class="board-col" aria-labelledby="backlog-heading">
+            <div class="board-col-head">
+              <div>
+                <h2 id="backlog-heading" style="margin:0;"></h2>
+                <p class="subtitle" id="backlog-count"></p>
+              </div>
+              <span class="subtitle" id="backlog-hint"></span>
+            </div>
+            <div class="drop-list" id="backlog-list" data-zone="backlog"></div>
+          </section>
+
+          <section class="board-col" aria-labelledby="action-heading">
+            <div class="board-col-head">
+              <div>
+                <h2 id="action-heading" style="margin:0;"></h2>
+                <p class="subtitle" id="action-count"></p>
+              </div>
+              <span class="subtitle" id="action-hint"></span>
+            </div>
+            <div class="drop-list" id="action-list" data-zone="action"></div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 6: MARCOMM & PR PLAN -->
+    <section role="tabpanel" id="panel-marcomm" aria-labelledby="tab-marcomm" hidden>
+      <div class="panel-body" id="marcomm-container"></div>
+    </section>
+  </main>
+
+  <footer id="page-footer"></footer>
+
+  <!-- Verbatim Detail Dialog (with Original ID + optional Translate to EN toggle) -->
+  <dialog id="detail-dialog" closedby="any" aria-labelledby="dialog-title">
+    <div class="dialog-head">
+      <div>
+        <div id="dialog-badges" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:6px;"></div>
+        <h2 id="dialog-title">Detail</h2>
+      </div>
+      <form method="dialog">
+        <button type="submit" class="btn" autofocus id="dialog-close-top"></button>
+      </form>
+    </div>
+    <div class="meta-grid" id="dialog-meta"></div>
+    <p id="dialog-summary" style="margin:0 0 8px; font-weight:600;"></p>
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap; margin-top:8px;">
+      <span class="subtitle" id="verbatim-lang-label" style="font-weight:600;"></span>
+      <button type="button" class="btn btn-sm btn-info" id="toggle-translate"></button>
+    </div>
+    <blockquote class="verbatim-box" id="dialog-verbatim"></blockquote>
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-top:14px;">
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <a id="dialog-url" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary"></a>
+        <button type="button" class="btn" id="dialog-escalate"></button>
+      </div>
+      <form method="dialog">
+        <button type="submit" class="btn" id="dialog-close-bot"></button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Data Collection Methodology Dialog -->
+  <dialog id="methodology-dialog" closedby="any" aria-labelledby="meth-title">
+    <div class="dialog-head">
+      <h2 id="meth-title"></h2>
+      <form method="dialog">
+        <button type="submit" class="btn" autofocus id="meth-close"></button>
+      </form>
+    </div>
+    <div id="meth-body" style="font-size:0.9rem; display:grid; gap:10px;"></div>
+  </dialog>
+
+  <script>
+    const DATA = {"items": [{"id": "P0-01", "severity": "Critical", "priority": "P0", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Viral Boycott / Systemic Scoring Allegation", "category_en": "Viral Boycott / Systemic Scoring Allegation", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24 08:05", "day": "2026-11-24", "handle": "@qhajarahmad", "venue": "Jakarta, Jogja, Bandung (umum BC Indonesia)", "views": 147000, "likes": 2200, "replies": 548, "reposts": 214, "summary": "Pengajar IELTS umumkan berhenti rekomendasikan BC karena pola penilaian Writing & Speaking dinilai merugikan 3-4 bulan terakhir.", "summary_en": "IELTS instructor announces halting BC recommendations over perceived abnormal & disadvantageous Writing/Speaking scoring patterns over the past 3–4 months.", "verbatim": "Dengan menyesal, mulai hari ini, Selasa Kliwon, tanggal 24 November 2026, saya tidak akan merekomendasikan murid-murid saya untuk ambil tes IELTS di BC. Saya merasa ada pola yang aneh (dan merugikan peserta) dalam penilaian writing dan speaking sejak 3-4 bulan terakhir. Kalau ada yg tes di BC dan merasakan hal yang sama,.boleh komen atau DM ya, krn saya juga masih mengumpulkan data.", "verbatim_en": "With regret, starting today, Tuesday Kliwon, November 24, 2026, I will no longer recommend my students to take the IELTS test at BC. I feel there is a strange (and candidate-harming) pattern in writing and speaking scoring over the last 3–4 months. If anyone tested at BC and felt the same, feel free to comment or DM as I am still collecting data.", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P0-02", "severity": "Critical", "priority": "P0", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Viral Boycott / Systemic Scoring Allegation", "category_en": "Viral Boycott / Systemic Scoring Allegation", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-23 21:23", "day": "2026-11-23", "handle": "@kholidiaalifahmei", "venue": "BC Indonesia (tidak spesifik cabang)", "views": 38700, "likes": 614, "replies": 122, "reposts": 37, "summary": "Tidak rekomendasikan tes di BC; mengalami retake Speaking (2x hingga part 3) dengan hasil lebih rendah dari mock test.", "summary_en": "Strongly advises against taking IELTS at BC; experienced forced Speaking retake (twice up to Part 3) with worse score than 4 mentors' mock predictions.", "verbatim": "Sangat tidak merekomendasikan ambil tes di British Council. It’s only my opinion. Ini bisa gak sih minta hasil penilaian speaking sekaligus koreksian mereka secara detail? Mahal loh udah bayar gede in this economy. Temen-temn di sini yang punya keresahan yang sama mungkin di BC? Boleh dong ceritain.", "verbatim_en": "Strongly do not recommend taking the test at British Council. It’s only my opinion. Is it possible to request detailed speaking scoring and corrections? It’s expensive paying so much in this economy. Friends here who share the same concern about BC? Please share your stories.", "url": "https://www.threads.com/@kholidiaalifahmei/post/DgFllUkkYJt"}, {"id": "P0-03", "severity": "Critical", "priority": "P0", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24 18:55", "day": "2026-11-24", "handle": "@ddokiii", "venue": "BC Indonesia (Okt 2023)", "views": null, "likes": 234, "replies": 6, "reposts": 5, "summary": "Speaking Zoom lag diabaikan pengawas, hasil telat, Writing 6.0 naik jadi 6.5 setelah bayar EOR Rp2 juta (vs IALF overall 8.0).", "summary_en": "Zoom Speaking lag ignored by proctor, delayed results, Writing 6.0 overturned to 6.5 after paying Rp2M EOR (while scoring 8.0 overall at IALF).", "verbatim": "Speakingnya pake Zoom dan sinyalnya jelek, pas aku protes berkali-kali, kang jaganya bilang \"asal kedengeran mah gakpapa gausah ganti walaupun videonya lagging\"... Hasilnya keluar TELAT... Pas liat Writing nya 6.0 aku langsung bayar 2 Juta buat \"TOLONG CEK ULANG!\"... Seminggu setelahnya, review ulang Writing keluar. Nilaiku berubah 6.5 jadi uangku dibalikin...", "verbatim_en": "Speaking used Zoom and the connection was bad; when I protested repeatedly, the proctor said 'as long as it's audible it's fine, no need to switch even if the video is lagging'... Results came out LATE... Seeing Writing 6.0 I immediately paid 2 Million for 'PLEASE RE-CHECK!'... A week later, the Writing review came out. My score changed to 6.5 so my money was refunded...", "url": "https://www.threads.com/@ddokiii/post/DgH5ZRlExFG"}, {"id": "P0-04", "severity": "Critical", "priority": "P0", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Speaking Online Tech / Forced Retake", "category_en": "Speaking Online Tech / Forced Retake", "theme": "T2: Online Speaking Fragility & Forced Retakes", "sentiment": "Negative", "date": "2026-11-24 08:31", "day": "2026-11-24", "handle": "@uswa_aftah", "venue": "BC Indonesia (2025)", "views": 83, "likes": null, "replies": 2, "reposts": null, "summary": "Rekaman Speaking teman bermasalah hingga diminta tes ulang di semua skill (bukan hanya Speaking).", "summary_en": "Friend's 2025 BC Speaking recording had an issue and the candidate was asked to retake all four skills.", "verbatim": "Temenku pernah ngambil test di BC tahun 2025 kak. Ternyata rekaman pas speakingnya bermasalah. Diminta untuk tes ulang di semua skill😭😭", "verbatim_en": "My friend took the test at BC in 2025. Turns out the speaking recording had an issue. They were asked to retake the test across all skills😭😭", "url": "https://www.threads.com/@uswa_aftah/post/DgGx7t8EnlK"}, {"id": "P0-05", "severity": "Critical", "priority": "P0", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Result / Certificate Delay & Verification", "category_en": "Result / Certificate Delay & Verification", "theme": "T4: Result Delays & Verification Friction", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@ydharma", "venue": "BC Indonesia (tes 14 Nov 2026)", "views": null, "likes": 1, "replies": null, "reposts": null, "summary": "Hasil tes IELTS anak tanggal 14 Nov 2026 belum keluar sementara teman seangkatan sudah keluar; sudah bolak-balik diurus.", "summary_en": "Child took IELTS on Nov 14, 2026 and results remain unreleased while peers already received theirs despite repeated follow-ups.", "verbatim": "Anak saya ambil ujian IELTS tgl 14 nov kmrn, hasilnya belum keluar. Temannya yg barengan sudah keluar. Bulak balik urus belum ada hasil", "verbatim_en": "My child took the IELTS exam on Nov 14, and the result hasn't come out yet. Their friend who took it together already got theirs. Went back and forth handling it with no result yet.", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P0-06", "severity": "Critical", "priority": "P0", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@uusmayantivivi", "venue": "BC Bandung (akhir 2022)", "views": null, "likes": 4, "replies": 1, "reposts": null, "summary": "Banding/remark berbayar (~Rp1,8 juta) menaikkan skor Speaking +1.0 dan Writing +0.5 di BC Bandung.", "summary_en": "Paid remark/appeal (~Rp1.8M) at BC Bandung (late 2022) raised Speaking by +1.0 and Writing by +0.5.", "verbatim": "Akuu punya pengalaman tidak mengenalkan sama BC Bandung. Tahun 2022 akhir test disana... Trus aku banding- remark (dengan bayar setengah harga, kisaran 1.8 jutaan kalo ga salah). Nilaiku naik 1 poin untuk speaking, dan writing 0.5 point 😂😂😂.", "verbatim_en": "I had an unpleasant experience with BC Bandung. Late 2022 tested there... Then I appealed/remarked (paying half price, around 1.8 million if I recall). My score went up 1 point for speaking, and 0.5 point for writing 😂😂😂.", "url": "https://www.threads.com/@kholidiaalifahmei/post/DgFllUkkYJt"}, {"id": "P1-07", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Speaking Online Tech / Forced Retake", "category_en": "Speaking Online Tech / Forced Retake", "theme": "T2: Online Speaking Fragility & Forced Retakes", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@ayuabece", "venue": "BC Yogyakarta (~19 Nov 2026)", "views": null, "likes": 84, "replies": 7, "reposts": 6, "summary": "Sinyal Speaking jelek di BC Jogja sehingga tes ditunda & diganti penguji India dengan aksen sulit dipahami; skor S & W rendah.", "summary_en": "Poor signal during Speaking at BC Yogyakarta (~Nov 19, 2026) forced delay & switch to an Indian examiner whose accent felt hard to follow; low S & W scores.", "verbatim": "Aku baru aja selesai 5 hari yg lalu di BC Yogya. Speaking saya rendah nilainya, writing apalagi. Parahnya, di speaking itu sinyalnya sempet jelek jadi tesnya ditunda. Diganti beberapa lama kemudian, dg examiner India, yg astaga aksennya sangat tdk fair sekali menurutku.", "verbatim_en": "I just finished 5 days ago at BC Yogya. My speaking score was low, writing even worse. Worse, during speaking the signal was bad so the test was delayed. Replaced some time later with an Indian examiner, whose accent was honestly very unfair in my view.", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P1-08", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Test Center Hardware, Audio & Staff Conduct", "category_en": "Test Center Hardware, Audio & Staff Conduct", "theme": "T3: Hardware, Acoustics & Staff Conduct", "sentiment": "Negative", "date": "2026-11-25 16:40", "day": "2026-11-25", "handle": "@vanilllaaaes", "venue": "BC Indonesia (~11 Nov 2026)", "views": null, "likes": null, "replies": null, "reposts": null, "summary": "Layar tes gelap/tidak bisa diatur kontras, staf tidak sopan menaruh headset ke kepala, dan audio Speaking kecil.", "summary_en": "Dark monitor with unadjustable contrast, staff rudely placed headset onto candidate's head, and low Speaking audio volume (~Nov 11, 2026).", "verbatim": "Aku juga 2 minggu yg lalu tes di BC dan ga worth it banget, dapat layar yg kontras cahayanya gelap banget tapi ga bisa ditingkatin cahayanya... Pas nanya tukang jaganya ehh bukannya ngejawab tapi cuma disuruh lihat video dan ga sopan banget langsung naruh headset di kepala gue... pas speaking suaranya kecil... malah suara gue yg disuruh dikencangin", "verbatim_en": "I also tested at BC 2 weeks ago and it was so not worth it, got a screen whose light contrast was very dark but couldn't be brightened... When asking the proctor, instead of answering they just told me to watch a video and rudely put the headset directly on my head... during speaking the voice was quiet... instead my voice was told to be louder.", "url": "https://www.threads.com/@vanilllaaaes/post/DgKOsYdE_xD"}, {"id": "P1-09", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Speaking Online Tech / Forced Retake", "category_en": "Speaking Online Tech / Forced Retake", "theme": "T2: Online Speaking Fragility & Forced Retakes", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@anggilani", "venue": "BC Indonesia", "views": null, "likes": 13, "replies": 2, "reposts": null, "summary": "Speaking computer-based terputus di 70% karena koneksi, disambung ke penguji lain yang ketus & memotong; skor turun dari 6.5 ke 6.", "summary_en": "Computer-based Speaking disconnected at ~70% due to connection issues, reconnected with a different curt examiner who interrupted; score dropped 6.5 to 6.0.", "verbatim": "Pas speaking kira2 udah 70%an kelar, tiba2 gangguan koneksi, trus pas connect lg sm beda orang. Trus aku ngomong dipotong mulu trus agak ketus pdhl kan harusnya yg ketus aku krn udh bayar malah jd kerja 2x. Hasilnya pas cuman 6 (turun dari 6.5 di tes sebelumnya)", "verbatim_en": "During speaking when it was ~70% done, suddenly connection disrupted, then reconnected with a different person. Then I kept getting cut off and they were rather curt when I'm the one who paid and had to work twice. Result was only 6 (down from 6.5 in previous test).", "url": "https://www.threads.com/@kholidiaalifahmei/post/DgFllUkkYJt"}, {"id": "P1-10", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Speaking Online Tech / Forced Retake", "category_en": "Speaking Online Tech / Forced Retake", "theme": "T2: Online Speaking Fragility & Forced Retakes", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@dreamingdreamy_", "venue": "BC Bandung (2025)", "views": null, "likes": 6, "replies": 2, "reposts": null, "summary": "Harus tes Speaking 2 kali di BC Bandung karena sesi pertama gagal terekap skornya; dikejar petugas setelah keluar.", "summary_en": "Had to take Speaking twice at BC Bandung (2025) because the first session's score failed to record; chased by staff after exiting.", "verbatim": "Kak, aku di BC bandung, 2025 lalu, Speaking 2 kali, krn yg pertama ga berhasil direkap scorenya katanya! Dikejar lagi sama Mas-masnya pas aku udah di luar buat tes speaking lagi😭", "verbatim_en": "At BC Bandung, back in 2025, did Speaking twice, because the first one failed to record the score they said! Chased by the staff member when I was already outside to redo the speaking test😭", "url": "https://www.threads.com/@kholidiaalifahmei/post/DgFllUkkYJt"}, {"id": "P1-11", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Speaking Online Tech / Forced Retake", "category_en": "Speaking Online Tech / Forced Retake", "theme": "T2: Online Speaking Fragility & Forced Retakes", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@odilapaskaa", "venue": "BC Indonesia", "views": null, "likes": 5, "replies": 1, "reposts": null, "summary": "Sinyal petugas Speaking jelek sehingga harus stop & mengulang tes; peserta sempat disalahkan sebelum terbukti sinyal petugas bermasalah.", "summary_en": "Examiner's Speaking signal was poor forcing a stop and restart; candidate was initially blamed before proving the test center's signal was at fault.", "verbatim": "Kakkk aku pernah lagi lagi test speaking sinyal si petugasnya jelek. Jdi aku minta stop trus ngulang test. Kesel bgt jdi udh ga optimal krn aku jg udh stress dibilang sinyal di indo yg jelek dan aku mengada ngada. Jdi ku panggil itu yg jaga test & emang bener sinyal mereka yg jelek.", "verbatim_en": "Once during my speaking test the staff/examiner signal was bad. So I asked to stop and restart. So annoyed it wasn't optimal anymore because I was stressed being told Indonesian signal is bad and that I was making things up. So I called the proctor & indeed their signal was the bad one.", "url": "https://www.threads.com/@ddokiii/post/DgH5ZRlExFG"}, {"id": "P1-12", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Speaking Online Tech / Forced Retake", "category_en": "Speaking Online Tech / Forced Retake", "theme": "T2: Online Speaking Fragility & Forced Retakes", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@safirayusinta", "venue": "BC Jakarta (2023)", "views": null, "likes": 1, "replies": 1, "reposts": null, "summary": "Kendala device/koneksi menunda tes Speaking ~2 jam di BC Jakarta; penguji memotong jawaban & skor tak sesuai latihan.", "summary_en": "Device/connection issue at BC Jakarta (2023) delayed Speaking ~2 hours; examiner cut off answers & score missed practice level; switched to IDP.", "verbatim": "Pernah ambil Ielts di BC Jkt tahun 2023. Waktu speaking test, device atau koneksi dari akunku bermasalah, dan cuma aku aja yang bermasalah, sampai menunda sekitar 2 jam. Ketika udah berhasil masuk, pengujinya orang India dan ketika aku kash jawaban belum selesai langsung dipotong... Akhirnya pindah ke IDP aja dan alhamdulillah semuanya mulus", "verbatim_en": "Took IELTS at BC Jkt in 2023. During speaking test, my account's device or connection had issues, only mine, delaying around 2 hours. When I finally got in, the examiner was Indian and before I finished answering I got cut off... Eventually moved to IDP and thank God everything went smoothly.", "url": "https://www.threads.com/@kholidiaalifahmei/post/DgFllUkkYJt"}, {"id": "P1-13", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Test Center Hardware, Audio & Staff Conduct", "category_en": "Test Center Hardware, Audio & Staff Conduct", "theme": "T3: Hardware, Acoustics & Staff Conduct", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@nadyameriza", "venue": "BC Indonesia", "views": null, "likes": 1, "replies": null, "reposts": null, "summary": "Headset bocor saat Listening hingga audio terdistraksi peserta sebelah; sudah protes namun tidak bisa ulang.", "summary_en": "Leaking headset during Listening caused audio bleed from adjacent candidate; protested but could not retake.", "verbatim": "Saya pernah dapet headset bocor bikin terdistraksi saat listening. Audio saya kejar2an dengan yg di sebelah. Udah protes gak bisa ulang.", "verbatim_en": "I once got a leaking headset that distracted me during listening. My audio clashed with the person next to me. Already protested, couldn't retake.", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P1-14", "severity": "High", "priority": "P1", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Result / Certificate Delay & Verification", "category_en": "Result / Certificate Delay & Verification", "theme": "T4: Result Delays & Verification Friction", "sentiment": "Negative", "date": "2026-11-02 10:55", "day": "2026-11-02", "handle": "@cassandra_renata", "venue": "BC Indonesia", "views": 1100, "likes": 2, "replies": 6, "reposts": null, "summary": "Sertifikat IELTS BC berstatus 'has not been verified yet' pada aplikasi beasiswa (eligible under condition).", "summary_en": "BC IELTS certificate showed 'has not been verified yet' on a scholarship application (eligible under condition), triggering verification anxiety.", "verbatim": "Guys ada yg bisa cek apakah sertifikat ielts aku bisa diverify/ engga? Aku tes di british council lgsg, trsss aplikasi beasiswa aku eligible under condition karena ieltsnya has not been verified yet. Parno aja gt takut gak bisa di verify😭🥲", "verbatim_en": "Guys can anyone check if my IELTS certificate can be verified or not? I tested directly at British Council, and my scholarship application is eligible under condition because the IELTS has not been verified yet. Just paranoid it won't verify😭🥲", "url": "https://www.threads.com/@cassandra_renata/post/DfOY_eXmfA5"}, {"id": "P1-15", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@xabrown", "venue": "BC Indonesia", "views": null, "likes": 56, "replies": 1, "reposts": null, "summary": "Ketimpangan skor Writing 5.5 di BC padahal L/R/S 7.5 dan sebelumnya di IDP/IALF Writing tidak pernah di bawah 6.", "summary_en": "Sharp discrepancy: Writing 5.5 at BC despite L/R/S at 7.5 and never scoring below 6.0 in prior IDP/IALF tests.", "verbatim": "kak, aku pernah dua kali take ielts di IDP sm IALF, writing ga pernah di bawah 6. trs terakhir aku coba di BC dan udah persiapan cukup mantap, turns out writing ku 5.5. pdhl LRS udh 7.5. ky nonsense, cm yaudah😔", "verbatim_en": "I took IELTS twice at IDP and IALF, writing was never below 6. Then recently I tried BC with solid preparation, turns out my writing was 5.5 even though LRS were 7.5. Like nonsense, but oh well😔", "url": "https://www.threads.com/@kholidiaalifahmei/post/DgFllUkkYJt"}, {"id": "P1-16", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@n.qurrotuainii", "venue": "BC Indonesia (tes pertama)", "views": null, "likes": 112, "replies": 8, "reposts": 4, "summary": "Hasil tes pertama di BC jauh di bawah latihan; teknis wawancara Speaking dengan penguji India dinilai berbeda.", "summary_en": "First-time BC test results far below mock scores; noted online Speaking with Indian examiner felt technically different from prep classes.", "verbatim": "aku kmrn tes pertama kali di BC 🥲 sumpah kaget bgt hasilnya jauh di bawah latihan2ku. btw speaking int nya sama org India, mana beda bgt teknisnya sama yg di video study/class", "verbatim_en": "Just tested for the first time at BC 🥲 honestly shocked the result was far below my practice scores. btw speaking interview was with an Indian examiner, and technically very different from study/class videos.", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P1-17", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@mallorymistyday", "venue": "BC Indonesia", "views": null, "likes": 20, "replies": 2, "reposts": 1, "summary": "Keluhan subjektivitas/bias penilai: skor Speaking 6.5 (penguji jutek) melonjak ke 8.0 dalam 2 minggu tanpa belajar tambahan.", "summary_en": "Perceived examiner bias: Speaking jumped from 6.5 (grumpy examiner) to 8.0 two weeks later (friendly examiner) with zero extra study.", "verbatim": "JUJUR kak emang BC tuh bias bgt anjir speakingnyaa..😭 aku pertama dpt bule songong jutek dia kasih skor 6.5... trs retake dpt kaka2 jepang baiik bgt... dan dia kasih skor 8.. bener2 berasa bias karena dalam jarak 2 minggu dan gaada belajar samsek", "verbatim_en": "HONESTLY BC speaking is so biased..😭 first time got a grumpy arrogant westerner who gave 6.5... then retook and got a super nice Japanese examiner... and gave 8.. really felt biased because within 2 weeks and zero studying.", "url": "https://www.threads.com/@kholidiaalifahmei/post/DgFllUkkYJt"}, {"id": "P1-18", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@cesilka2", "venue": "BC Indonesia (Sept 2026)", "views": null, "likes": 13, "replies": 1, "reposts": null, "summary": "Ujian September dengan penguji India kerap di-stop sehingga tidak leluasa menjawab; skor Speaking 5.5.", "summary_en": "September exam with Indian examiner frequently stopped answers mid-response; received Speaking 5.5.", "verbatim": "Kak saya bulan september ujian sama orang india suka di stop\" dan bikin saya ga leluasa jawabnya.. jdnya speaking cuma 5.5 😭😭.", "verbatim_en": "In September I tested with an Indian examiner who kept stopping me and made me unable to answer freely.. ended up getting only 5.5 in speaking 😭😭.", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P1-19", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@yola_dr", "venue": "BC Salemba Jakarta (Okt 2026)", "views": null, "likes": 7, "replies": 1, "reposts": null, "summary": "Tes BC Salemba Okt 2026: L & R 7.5 tetapi Speaking 5.5 meski merasa mampu menjawab pertanyaan penguji.", "summary_en": "BC Salemba Jakarta (Oct 2026): Listening & Reading 7.5 but Speaking 5.5 despite feeling able to answer questions.", "verbatim": "Saya test di BC Salemba bulan Oktober kemarin, L dan R 7,5 tapi speaking 5,5.. Perasaan bisa2 aja jawab pertanyaan examinernya..", "verbatim_en": "I tested at BC Salemba last October, L and R 7.5 but speaking 5.5.. Felt like I answered the examiner's questions fine..", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P1-20", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Viral Boycott / Systemic Scoring Allegation", "category_en": "Viral Boycott / Systemic Scoring Allegation", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@rennyanggraini", "venue": "BC Indonesia", "views": null, "likes": 259, "replies": 4, "reposts": 3, "summary": "Menyebut isu BC sudah terdengar sejak 2019; lebih memilih IDP/IALF untuk murid persiapan beasiswa.", "summary_en": "Educator notes similar rumors since 2019 and prefers IDP or IALF for scholarship and university registration prep.", "verbatim": "Sepertinya isu ini bukan hal yg baru, sy udh denger ada dugaan ini sejak tahun 2019. Mknya waktu bimbingan intensif n tes IELTS utk persiapan beasiswa n registrasi univ LN, sy prefer pke IDP atau IALF.", "verbatim_en": "Seems this issue isn't new, I've heard these allegations since 2019. That's why during intensive prep & IELTS tests for scholarships and overseas uni registration, I prefer IDP or IALF.", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P1-21", "severity": "High", "priority": "P1", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Viral Boycott / Systemic Scoring Allegation", "category_en": "Viral Boycott / Systemic Scoring Allegation", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@gustirapahlevi", "venue": "BC Indonesia", "views": null, "likes": 62, "replies": 3, "reposts": 3, "summary": "Pengajar menyebut mengarahkan murid ke IDP/IALF kecuali terpaksa karena menilai BC sejak dulu bermasalah.", "summary_en": "Instructor states steering students toward IDP/IALF unless forced, viewing BC as problematic long-term.", "verbatim": "Dari dulu BC udah aneh kak.. aku sebisa mungkin arahin murid2ku untuk ambil di IDP/IALF kecuali terpaksa..", "verbatim_en": "BC has always been weird.. I try as much as possible to direct my students to take it at IDP/IALF unless forced..", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P2-22", "severity": "Medium", "priority": "P2", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Pre-Test Anxiety / Booking Hesitation", "category_en": "Pre-Test Anxiety / Booking Hesitation", "theme": "T5: Viral Contagion, Anxiety & Competitor Spillover", "sentiment": "Anxious / Mixed", "date": "2026-11-24", "day": "2026-11-24", "handle": "@thriveward", "venue": "BC Indonesia", "views": 4800, "likes": 81, "replies": 25, "reposts": 2, "summary": "Peserta sudah daftar tes tgl 23 merasa takut dan khawatir karena puluhan postingan Threads tidak merekomendasikan BC.", "summary_en": "Booked for Nov 23 test feels anxious after seeing dozens of Threads posts advising against BC.", "verbatim": "Lagi rame isu British Council kayaknya ya, udah lewat beberapa kali dan puluhan orang dari beberapa post tidak merekomendasikannya. Saya udah daftar buat tgl 23, semoga aja aman... Takut banget sebenernya. 😅😅", "verbatim_en": "British Council issues seem to be trending, saw it several times and dozens of people across posts don't recommend it. I already registered for the 23rd, hope it's safe... Actually super scared. 😅😅", "url": "https://www.threads.com/@thriveward/post/DgG8z1RGMFf"}, {"id": "P2-23", "severity": "Medium", "priority": "P2", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Pre-Test Anxiety / Booking Hesitation", "category_en": "Pre-Test Anxiety / Booking Hesitation", "theme": "T5: Viral Contagion, Anxiety & Competitor Spillover", "sentiment": "Anxious / Mixed", "date": "2026-11-24 18:17", "day": "2026-11-24", "handle": "@fudreee", "venue": "BC Indonesia", "views": 2400, "likes": 8, "replies": 12, "reposts": null, "summary": "Peserta yang sudah terlanjur booking BC untuk tes pertama menjadi insecure akibat ulasan negatif di Threads.", "summary_en": "Already booked BC for first IELTS test and feels insecure reading negative Threads reviews.", "verbatim": "udah terlanjur book BC untuk test ielts pertamaku, terus muncul review2 tentang BC yang bikin insecure bgttt 😞😞😞", "verbatim_en": "Already booked BC for my first IELTS test, then reviews about BC popped up making me super insecure 😞😞😞", "url": "https://www.threads.com/@fudreee/post/DgH1EeLgdd2"}, {"id": "P2-24", "severity": "Medium", "priority": "P2", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Pre-Test Anxiety / Booking Hesitation", "category_en": "Pre-Test Anxiety / Booking Hesitation", "theme": "T5: Viral Contagion, Anxiety & Competitor Spillover", "sentiment": "Anxious / Mixed", "date": "2026-11-24 17:59", "day": "2026-11-24", "handle": "@phdwith.er", "venue": "BC Indonesia", "views": 865, "likes": 9, "replies": 10, "reposts": null, "summary": "Peserta menjadi overthinking menjelang hari H tes IELTS di BC karena isu yang ramai pada 24 Nov.", "summary_en": "Overthinking ahead of upcoming BC test due to the Nov 24 viral discussion on Threads.", "verbatim": "Jujur jadi ovt karena hari ini rame soal tes IELTS di BC😭 tapi mau tetep usahain dulu sambil banyak-banyak berdoa deh😭", "verbatim_en": "Honestly overthinking because today IELTS at BC is trending😭 but still gonna try my best while praying a lot😭", "url": "https://www.threads.com/@phdwith.er/post/DgHy_P-j9Ce"}, {"id": "P2-25", "severity": "Medium", "priority": "P2", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Pre-Test Anxiety / Booking Hesitation", "category_en": "Pre-Test Anxiety / Booking Hesitation", "theme": "T5: Viral Contagion, Anxiety & Competitor Spillover", "sentiment": "Anxious / Mixed", "date": "2026-11-25 17:24", "day": "2026-11-25", "handle": "@going_to974", "venue": "BC Indonesia", "views": 791, "likes": 3, "replies": 3, "reposts": null, "summary": "Calon peserta bimbang memilih BC (demi mock test) akibat banyaknya ulasan negatif sesi Speaking.", "summary_en": "Hesitating on booking BC (wanted the included mock test) due to negative Speaking section reviews.", "verbatim": "Mau ambil test IELTS di BC biar dpt mock testnya, tp jd maju mundur karena reviewan org² di speaking sectionnya. Heeelp, need advice.", "verbatim_en": "Wanted to take the IELTS test at BC to get the mock test, but hesitating back and forth because of people's reviews on the speaking section. Heeelp, need advice.", "url": "https://www.threads.com/@going_to974/post/DgKTt7GEi_E"}, {"id": "P2-26", "severity": "Medium", "priority": "P2", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Competitor Positioning / Amplification", "category_en": "Competitor Positioning / Amplification", "theme": "T5: Viral Contagion, Anxiety & Competitor Spillover", "sentiment": "Neutral / Info", "date": "2026-11-25 10:00", "day": "2026-11-25", "handle": "@englishstudio", "venue": "Mitra resmi IDP", "views": 2000, "likes": 51, "replies": 1, "reposts": 8, "summary": "Mitra resmi IDP mengunggah promosi IDP IELTS tepat di tengah puncak krisis reputasi BC di Threads.", "summary_en": "Official IDP partner publishes promotional post capitalizing on BC controversy timing on Nov 25.", "verbatim": "“Tes IELTS yang bagus di mana?” IDP IELTS, dong! “Kok bisa?” Ya, karena English Studio mitra resmi IDP. Masa promosi tetangga? ✌️", "verbatim_en": "“Where is a good place to take IELTS?” IDP IELTS, of course! “Why?” Yes, because English Studio is an official IDP partner. Why promote the neighbor? ✌️", "url": "https://www.threads.com/@englishstudio/post/DgJg8_cE7om"}, {"id": "P2-27", "severity": "Medium", "priority": "P2", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Result / Certificate Delay & Verification", "category_en": "Result / Certificate Delay & Verification", "theme": "T4: Result Delays & Verification Friction", "sentiment": "Anxious / Mixed", "date": "2026-11-01 19:22", "day": "2026-11-01", "handle": "@avilaasidore", "venue": "BC Indonesia", "views": 566, "likes": 3, "replies": 10, "reposts": 1, "summary": "Menanyakan lama keluarnya hasil computer-based IELTS BC karena belum keluar pada H+1.", "summary_en": "Asks how long BC computer-based IELTS results take after not receiving scores at H+1.", "verbatim": "hasil ielts di BC keluar berapa lamasih? banyak yg bilang H+1 tapi kok gue blm ya😭", "verbatim_en": "How long does BC IELTS result take? Many say H+1 but why haven't I gotten mine yet😭", "url": "https://www.threads.com/@avilaasidore/post/DfMuNfnD49f"}, {"id": "P2-28", "severity": "Medium", "priority": "P2", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Result / Certificate Delay & Verification", "category_en": "Result / Certificate Delay & Verification", "theme": "T4: Result Delays & Verification Friction", "sentiment": "Anxious / Mixed", "date": "2026-11-04 19:39", "day": "2026-11-04", "handle": "@jnfragns__", "venue": "BC Indonesia", "views": 408, "likes": 1, "replies": 4, "reposts": null, "summary": "Khawatir sertifikat tes British Council tidak keluar setelah pembayaran akibat rumor di TikTok.", "summary_en": "Worried paid BC certificate won't be issued after seeing TikTok rumors of non-delivery post-payment.", "verbatim": "adakah disini yang pernah test English lewat British Council?? sertifnya apakah beneran keluar ya nnti guys? sbnrnya ak udh slesai test, mau cetak sertif cuman ak baca” di TT ktanya ada bbrapa udh payment tp sertifnya ga keluar…", "verbatim_en": "has anyone here taken an English test via British Council?? will the certificate really come out later guys? I actually finished the test, want to print the cert but read on TikTok some already paid and didn't get the cert…", "url": "https://www.threads.com/@jnfragns__/post/DfUegFZo4Mb"}, {"id": "P2-29", "severity": "Medium", "priority": "P2", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Competitor Positioning / Amplification", "category_en": "Competitor Positioning / Amplification", "theme": "T5: Viral Contagion, Anxiety & Competitor Spillover", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@scholarpath.id1", "venue": "BC Indonesia", "views": 6, "likes": 1, "replies": 0, "reposts": null, "summary": "Repost/salinan verbatim postingan boikot BC oleh @qhajarahmad (jangkauan rendah).", "summary_en": "Low-reach verbatim repost of @qhajarahmad's BC boycott announcement.", "verbatim": "Dengan menyesal, mulai hari ini, Selasa Kliwon, tanggal 24 November 2026, saya tidak akan merekomendasikan murid-murid saya untuk ambil tes IELTS di BC...", "verbatim_en": "With regret, starting today, Tuesday Kliwon, November 24, 2026, I will no longer recommend my students to take the IELTS test at BC...", "url": "https://www.threads.com/@scholarpath.id1/post/DgHLbBVjGU7"}, {"id": "P2-30", "severity": "Medium", "priority": "P2", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@lennyjosephine", "venue": "BC Indonesia", "views": 1400, "likes": null, "replies": null, "reposts": null, "summary": "Menilai soal-soal Reading di IELTS BC memiliki tingkat kesulitan yang sangat sulit/aneh.", "summary_en": "Rates IELTS BC Reading passages as unusually difficult.", "verbatim": "Soal soal reading di Ielts BC sangat sulit. Tingkat kesulitannya sangat aneh.", "verbatim_en": "The reading questions at IELTS BC are very difficult. The difficulty level is very strange.", "url": "https://www.threads.com/@lennyjosephine/post/DgFxwG5nyQB"}, {"id": "P2-31", "severity": "Medium", "priority": "P2", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@annecy_la_fleur", "venue": "Copenhagen, Denmark (kontras BC Indonesia)", "views": null, "likes": 47, "replies": 1, "reposts": null, "summary": "Menyebut tes BC di Copenhagen aman, yang dibalas @qhajarahmad bahwa anomali memang khusus di BC Indonesia 3-4 bulan terakhir.", "summary_en": "Contrasts safe BC experience in Copenhagen, prompting @qhajarahmad to specify the anomaly is in BC Indonesia.", "verbatim": "Aku 2x test IELTS di British Council aman terkendali, ga ada keanehan apapun sebab aku testnya waktu di Copenhagen, Denmark 😅😅😅", "verbatim_en": "I took IELTS at British Council twice safely with no oddities because I took the test in Copenhagen, Denmark 😅😅😅", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P2-32", "severity": "Medium", "priority": "P2", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Writing & Speaking Scoring / EOR Overturn", "category_en": "Writing & Speaking Scoring / EOR Overturn", "theme": "T1: Scoring Opacity, Bias & EOR Discrepancies", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@peni.mustikawati", "venue": "BC Indonesia", "views": null, "likes": 18, "replies": 1, "reposts": 1, "summary": "Orang tua dari 2 anak (R/L 8.5-9 vs W/S lebih rendah) berencana memindahkan anak ke-3 keluar dari BC.", "summary_en": "Parent of 2 children (R/L 8.5–9 vs lower W/S) plans to move 3rd child away from BC.", "verbatim": "kak...2 anak aku ambil IELTS di BC dan dua2 nya kenapa jeblok nya selalu di speaking&writing nya ....makanya buat anak ke 3 aku rencana pengen coba selain di BC", "verbatim_en": "both my 2 kids took IELTS at BC and both always dropped in speaking & writing.... so for my 3rd child I plan to try somewhere other than BC.", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P2-33", "severity": "Medium", "priority": "P2", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Test Center Hardware, Audio & Staff Conduct", "category_en": "Test Center Hardware, Audio & Staff Conduct", "theme": "T3: Hardware, Acoustics & Staff Conduct", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@iniellena", "venue": "BC Yogyakarta", "views": null, "likes": 7, "replies": null, "reposts": null, "summary": "Menyoroti banyaknya keluhan tentang penguji India di BC Jogja dan mempertanyakan pemantauan medsos BC Jogja.", "summary_en": "Highlights repeated complaints over the past few months regarding Indian examiners at BC Yogyakarta and questions social media monitoring.", "verbatim": "Dari beberapa bulan lalu lewat orang-orang yang ditest orang India ini di BC Yogya, semua ngeluh hal yang sama. Ini BC Yogya gapernah mantau sosmed kah?", "verbatim_en": "For months people tested by this Indian examiner at BC Yogya have all complained about the same thing. Does BC Yogya never monitor social media?", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P2-34", "severity": "Medium", "priority": "P2", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Test Center Hardware, Audio & Staff Conduct", "category_en": "Test Center Hardware, Audio & Staff Conduct", "theme": "T3: Hardware, Acoustics & Staff Conduct", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@nurkhalifahsaid", "venue": "Surabaya (Juli 2026)", "views": null, "likes": 3, "replies": 1, "reposts": null, "summary": "Speaking sempat terputus di akhir karena suara penguji kurang terdengar, lalu diulang dari awal dengan penguji Rusia yang jutek.", "summary_en": "Surabaya (July 2026): Speaking cut off near the end due to faint examiner audio and restarted from scratch with a curt Russian examiner.", "verbatim": "Aku tes juli kemaren... pas udah mau selesai pertanyaan beliau kurang terdengar alhasil langsung dicut🤧 ngulang dari awal ama org rusia yg jutek abisss... bikin mental down sih🥲 Oiya aku tes nya di sby", "verbatim_en": "I tested last July... right as it was ending her question was barely audible so it got cut off🤧 restarted from the beginning with a super curt Russian examiner... made me mentally down🥲 Oh I tested in Sby.", "url": "https://www.threads.com/@qhajarahmad/post/DgGvBBek2vs"}, {"id": "P2-35", "severity": "Medium", "priority": "P2", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Test Center Hardware, Audio & Staff Conduct", "category_en": "Test Center Hardware, Audio & Staff Conduct", "theme": "T3: Hardware, Acoustics & Staff Conduct", "sentiment": "Negative", "date": "2026-11-25", "day": "2026-11-25", "handle": "@dawnworldsz", "venue": "BC Indonesia", "views": null, "likes": null, "replies": null, "reposts": null, "summary": "Mengeluhkan aturan wajib pakai headset pada Speaking online BC yang tidak diinformasikan sebelumnya.", "summary_en": "Complains that mandatory headset usage during BC's online Speaking test was not disclosed beforehand.", "verbatim": "BC itu speaking test nya via online kak, udah gitu wajib pakai headset, ga bisa ga pakai, jadi buat yang ga terbiasa pakai headset pas speaking test berasa ga nyaman, dan itu mereka ga kasih tau!! 😭", "verbatim_en": "BC speaking test is online, and you must wear a headset, can't go without it, so for those unused to wearing a headset during speaking it feels uncomfortable, and they didn't tell us!! 😭", "url": "https://www.threads.com/@thriveward/post/DgG8z1RGMFf"}, {"id": "P2-36", "severity": "Medium", "priority": "P2", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Speaking Online Tech / Forced Retake", "category_en": "Speaking Online Tech / Forced Retake", "theme": "T2: Online Speaking Fragility & Forced Retakes", "sentiment": "Negative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@travelmom.id", "venue": "BC Indonesia", "views": null, "likes": 2, "replies": 1, "reposts": null, "summary": "Mengalami Speaking via Zoom yang ngelag tetapi takut mengajukan komplain.", "summary_en": "Experienced lagging Zoom Speaking test at BC but was afraid to complain.", "verbatim": "Kak sumpahhh aku juga kzl bgt tesnya pake zoom dan ngelaggg. Mau komplen takut salahhh 😭😭", "verbatim_en": "I was also so annoyed the test used Zoom and lagged. Wanted to complain but afraid of being wrong 😭😭", "url": "https://www.threads.com/@ddokiii/post/DgH5ZRlExFG"}, {"id": "P2-37", "severity": "Medium", "priority": "P2", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Test Center Hardware, Audio & Staff Conduct", "category_en": "Test Center Hardware, Audio & Staff Conduct", "theme": "T3: Hardware, Acoustics & Staff Conduct", "sentiment": "Negative", "date": "2026-11-10", "day": "2026-11-10", "handle": "@impiecka", "venue": "UPT Bahasa Unimed (Medan)", "views": 3600, "likes": 57, "replies": 21, "reposts": null, "summary": "Kecewa hasil Listening Juli lalu (persiapan 3 minggu) dan mencatat ruangan tes di Unimed tidak memakai sekat.", "summary_en": "Disappointed with July Listening score (3 weeks prep) and notes UPT Bahasa Unimed room lacked desk partitions.", "verbatim": "July lalu aku ambil tes IELTS pertamaku di British Council dengan persiapan cuma kurang lebih 3 minggu. Ternyata hasilnya kurang memuaskan, terutama di listening lol😭 ... di UPT Bahasa Unimed, seingetku gaada sekatnya", "verbatim_en": "Last July I took my first IELTS test at British Council with only ~3 weeks prep. Result was disappointing, especially listening lol😭 ... at UPT Bahasa Unimed, as I recall there were no partitions.", "url": "https://www.threads.com/@impiecka/post/Dfi_5Z_IeYD"}, {"id": "P3-38", "severity": "Low", "priority": "P3", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Neutral Comparison / Inquiry / Info", "category_en": "Neutral Comparison / Inquiry / Info", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Neutral / Info", "date": "2026-11-23 18:09", "day": "2026-11-23", "handle": "@raraalmm", "venue": "IDP -> mempertimbangkan BC", "views": 6300, "likes": 96, "replies": 40, "reposts": 5, "summary": "Mendapat overall 5.5 di IDP dan mempertimbangkan pindah ke BC untuk tes berikutnya; meminta perbandingan pengalaman.", "summary_en": "Scored 5.5 at IDP and considers switching to BC next; asks for experiences comparing both providers.", "verbatim": "oh iya temen temen, aku tes di idp. tapi untuk test selanjutnya aku consider untuk test di bc (british council) ada yang udah pengalam test di dua tempat itu? boleh di sharing juga dong perbedaannya gimana..", "verbatim_en": "oh yeah everyone, I tested at IDP. but for my next test I'm considering testing at BC (British Council). Has anyone experienced both? Please share how they differ..", "url": "https://www.threads.com/@raraalmm/post/DgFPSgUHWe-"}, {"id": "P3-39", "severity": "Low", "priority": "P3", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Neutral Comparison / Inquiry / Info", "category_en": "Neutral Comparison / Inquiry / Info", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Neutral / Info", "date": "2026-11-14 16:16", "day": "2026-11-14", "handle": "@valenciafabiann", "venue": "Jakarta Selatan", "views": 3600, "likes": 34, "replies": 14, "reposts": 2, "summary": "Meminta rekomendasi tempat tes resmi IELTS di Jakarta Selatan; memunculkan testimoni positif untuk venue BC Jaksel.", "summary_en": "Requests South Jakarta official IELTS venue recommendations; generates positive endorsements for BC Office 8 Senopati, Kuningan, and Pondok Indah.", "verbatim": "Guys, ada rekomendasi tempat test official IELTS. Aku tinggal di Jakarta Selatan nih", "verbatim_en": "Guys, any recommendations for an official IELTS test center. I live in South Jakarta.", "url": "https://www.threads.com/@valenciafabiann/post/Dft3On_E0QE"}, {"id": "P3-40", "severity": "Low", "priority": "P3", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Neutral Comparison / Inquiry / Info", "category_en": "Neutral Comparison / Inquiry / Info", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Neutral / Info", "date": "2026-11-12 19:51", "day": "2026-11-12", "handle": "@eflenglishforlearners", "venue": "IDP vs BC", "views": 3500, "likes": 19, "replies": 26, "reposts": 4, "summary": "Utas diskusi netral membandingkan kelebihan, kekurangan, dan tingkat kesulitan IDP vs British Council.", "summary_en": "Neutral discussion comparing pros, cons, and difficulty between IDP and British Council.", "verbatim": "Hey guys! let's discuss, lbih susah take IELTS di IDP / BC? Any advantages and disadvantages?", "verbatim_en": "Hey guys! let's discuss, is it harder to take IELTS at IDP / BC? Any advantages and disadvantages?", "url": "https://www.threads.com/@eflenglishforlearners/post/DfpGSLaE80_"}, {"id": "P3-41", "severity": "Low", "priority": "P3", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Neutral Comparison / Inquiry / Info", "category_en": "Neutral Comparison / Inquiry / Info", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Neutral / Info", "date": "2026-11-22 18:21", "day": "2026-11-22", "handle": "@tiltemiy", "venue": "BC Indonesia (Online Prep)", "views": 1500, "likes": 17, "replies": 6, "reposts": null, "summary": "Menanyakan apakah kursus online IELTS prep di British Council sepadan dengan harganya (balasan terbelah).", "summary_en": "Asks whether BC's paid online IELTS prep course is worth the price (receives split replies).", "verbatim": "ada yg pernah coba online course ielts prep di british council gaa? worth it ga yaa tmn2 dgn harga segini", "verbatim_en": "has anyone tried the online IELTS prep course at British Council? Is it worth it friends for this price?", "url": "https://www.threads.com/@tiltemiy/post/DgCr316E_h8"}, {"id": "P3-42", "severity": "Low", "priority": "P3", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Neutral Comparison / Inquiry / Info", "category_en": "Neutral Comparison / Inquiry / Info", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Neutral / Info", "date": "2026-11-24 13:48", "day": "2026-11-24", "handle": "@bluemoonflyfly", "venue": "BC Indonesia", "views": 123, "likes": 0, "replies": 0, "reposts": 0, "summary": "Menanyakan ketentuan jarak tanggal tes untuk penggunaan kode voucher diskon tes IELTS BC.", "summary_en": "Asks about validity window and availability of BC IELTS discount voucher codes.", "verbatim": "Biasanya voucher diskon test IELTS di BC itu berlaku untuk jarak test terdekat aja ya? ga bisa 2 bulan dari tgl book test ke hari h testnya? lagi cari kode voucher udah ga ada🥲", "verbatim_en": "Usually BC IELTS test discount vouchers only apply to nearest test dates right? Can't be 2 months from booking to test day? Looking for voucher codes and none left🥲", "url": "https://www.threads.com/@bluemoonflyfly/post/DgHWQDYHd1o"}, {"id": "P3-43", "severity": "Low", "priority": "P3", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-02", "day": "2026-11-02", "handle": "@anispahit", "venue": "BC Indonesia (IELTS Ready Premium)", "views": null, "likes": 541, "replies": 81, "reposts": null, "summary": "Pengalaman positif persiapan mandiri memakai IELTS Ready Premium British Council untuk tes 31 Okt 2026.", "summary_en": "Positive self-study score result post crediting British Council's IELTS Ready Premium (Oct 31 test).", "verbatim": "(Postingan berbagi skor hasil belajar mandiri dengan IELTS Ready Premium British Council)", "verbatim_en": "(Post sharing positive self-study IELTS score results achieved using British Council's IELTS Ready Premium.)", "url": "https://www.threads.com/@anispahit/post/DfPjR4gEtHQ"}, {"id": "P3-44", "severity": "Low", "priority": "P3", "recordType": "Original Post", "recordType_en": "Original Post", "category": "Neutral Comparison / Inquiry / Info", "category_en": "Neutral Comparison / Inquiry / Info", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Neutral / Info", "date": "2026-11-22", "day": "2026-11-22", "handle": "@bandup.ielts2026", "venue": "BC Indonesia", "views": null, "likes": null, "replies": null, "reposts": null, "summary": "Catatan informasional bahwa BC Indonesia menghentikan IELTS paper-based sejak 21 Juni 2026.", "summary_en": "Informational update noting British Council Indonesia discontinued paper-based IELTS on June 21, 2026.", "verbatim": "British Council Indonesia sudah tidak menyelenggarakan IELTS di kertas sejak 21 Juni 2026.", "verbatim_en": "British Council Indonesia has no longer administered paper-based IELTS since June 21, 2026.", "url": "https://www.threads.com/search?q=British%20Council%20Indonesia&filter=recent"}, {"id": "P3-45", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-24 10:32", "day": "2026-11-24", "handle": "@ieltswithvendy", "venue": "BC & IDP", "views": 1500, "likes": 26, "replies": 2, "reposts": null, "summary": "Pengajar menjelaskan mekanisme EOR/score breakdown & menegaskan pengalaman tes di BC dan IDP sama saja serta penguji profesional.", "summary_en": "Educator explains score breakdown & EOR deposit rules and states BC and IDP test experiences are equivalent with professional examiners.", "verbatim": "Tenang aja, saya test sudah pernah test di IDP dan BC, pengalamannya sama saja. Focus on what you can control. Examiner tidak dituntut untuk “baik”, tapi mereka dituntuk untuk profesional.", "verbatim_en": "Relax, I have tested at both IDP and BC, the experience is the same. Focus on what you can control. Examiners are not required to be 'nice', they are required to be professional.", "url": "https://www.threads.com/@ieltswithvendy/post/DgG_2yEETRD"}, {"id": "P3-46", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@nianrapr", "venue": "BC & IDP (8x tes)", "views": null, "likes": 10, "replies": 1, "reposts": 1, "summary": "Pengalaman 5x IDP & 3x BC menilai keduanya setara; menyukai antarmuka komputer BC.", "summary_en": "Tested 5x at IDP and 3x at BC; rates both equal and prefers BC's computer interface.", "verbatim": "Aku udah 7x take ielts... 5x IDP, 3x BC. Keduanya sama aja kok menurutku. Cuma emang yg BC tuh speakingnya online... Interface aku lebih suka BC, gel flexnya juga enak", "verbatim_en": "I've taken IELTS 7x... 5x IDP, 3x BC. Both are the same in my opinion. Only BC has online speaking... I actually prefer BC's interface, the gel flex pen is also nice.", "url": "https://www.threads.com/@thriveward/post/DgG8z1RGMFf"}, {"id": "P3-47", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@aghnia.anwar", "venue": "BC Yogyakarta (Nov 2026)", "views": null, "likes": 4, "replies": 1, "reposts": null, "summary": "Tes di BC Jogja bulan Nov 2026 mendapat overall 8.0 & Speaking 8 meski 2x minta ulang pertanyaan; menilai penilaian fair.", "summary_en": "Tested at BC Yogyakarta in Nov 2026, scored 8.0 overall and 8.0 Speaking despite asking to repeat 2 questions; deems scoring fair.", "verbatim": "Hai Kak. Aku abis tes di BC Jogja bulan ini. Hasil overall 8.0 dan mnrtku fair kok utk writing dan speaking nya... alhamdulillah speaking masih dpt 8.", "verbatim_en": "Hi. I just tested at BC Jogja this month. Overall result 8.0 and in my opinion writing and speaking were fair... thank God still got 8 in speaking.", "url": "https://www.threads.com/@thriveward/post/DgG8z1RGMFf"}, {"id": "P3-48", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@englishwithrifa", "venue": "BC Yogyakarta", "views": null, "likes": 4, "replies": null, "reposts": null, "summary": "Tes di BC Jogja merasa hasil sesuai kemampuan dan pelayanan saat tes baik.", "summary_en": "Tested at BC Yogyakarta and found scoring fair and test-day service good.", "verbatim": "without invalidating others' experiences, aku ga relate sm utas2 itu kak. aku take di BC jogja dan menurutku fair2 aja sesuai kemampuanku. pelayanan pas test juga okee kok👌", "verbatim_en": "without invalidating others' experiences, I don't relate to those threads. I took it at BC Jogja and felt it was fair according to my ability. Service during the test was also good👌", "url": "https://www.threads.com/@thriveward/post/DgG8z1RGMFf"}, {"id": "P3-49", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@i_m_k_y_o", "venue": "BC Cilacs UII Yogyakarta (2025)", "views": null, "likes": 4, "replies": 1, "reposts": null, "summary": "Tes di BC Cilacs UII Jogja aman dan menegaskan pengalaman tes bersifat subjektif.", "summary_en": "Tested at BC Cilacs UII Yogyakarta (2025) smoothly and emphasizes test experience is subjective.", "verbatim": "aku tahun 2025 tes ielts di BC cilacs UII jogja aman aja kak. menurutku penilaian tiap orang terkait pengalaman tes itu subjective banget dan ga bisa digeneralisasi.", "verbatim_en": "I took IELTS in 2025 at BC Cilacs UII Jogja and it was fine. In my view each person's test experience assessment is very subjective and can't be generalized.", "url": "https://www.threads.com/@fudreee/post/DgH1EeLgdd2"}, {"id": "P3-50", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-24 20:37", "day": "2026-11-24", "handle": "@ridloaulia", "venue": "BC UI (~10 Nov 2026)", "views": null, "likes": 2, "replies": 2, "reposts": null, "summary": "Tes di BC UI ~2 minggu lalu berjalan lancar; penguji aksen British-India dinilai jelas dan ramah.", "summary_en": "Tested at BC UI (~Nov 10, 2026) smoothly; notes British-Indian examiner had clear accent and friendly demeanor.", "verbatim": "hi ka, ku dua minggu lalu tes di bc ui. menurutku oke oke aja sih. speakingnya juga enak, meskipun memang india tapi aksennya british dan jelas kok, ramah juga", "verbatim_en": "hi, I tested two weeks ago at BC UI. In my view it was completely fine. Speaking was nice too, even though Indian, the accent was British and clear, friendly as well.", "url": "https://www.threads.com/@phdwith.er/post/DgHy_P-j9Ce"}, {"id": "P3-51", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-25", "day": "2026-11-25", "handle": "@panduwidyanto", "venue": "BC Indonesia (tes 22 Nov 2026)", "views": null, "likes": 4, "replies": 2, "reposts": 1, "summary": "Anak sempat merasa penguji terkesan judgemental usai tes 22 Nov, namun hasil akhirnya keluar dan memuaskan.", "summary_en": "Child felt examiner seemed judgemental right after Nov 22 test, but final results came out satisfactory.", "verbatim": "Hasil test anak kedua di BC tgl 22 Nov kemarin, test pertama & self taught. Hasilnya jg memuaskan.", "verbatim_en": "My second child's test result at BC on Nov 22, first test & self-taught. The result was also satisfactory.", "url": "https://www.threads.com/@fudreee/post/DgH1EeLgdd2"}, {"id": "P3-52", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@aruuudb", "venue": "BC Bandung (Juni 2026)", "views": null, "likes": 2, "replies": 3, "reposts": null, "summary": "Menyemangati peserta cemas; pengalaman tes Juni di BC Bandung terasa aman, nyaman, dan adil.", "summary_en": "Reassures anxious candidates; June 2026 test at BC Bandung felt safe, comfortable, and fair.", "verbatim": "Gapapa kak semangat ya. Juni kemarin saya di BC Bandung. So far aman dan kata saya fair fair aja.", "verbatim_en": "It's okay, stay encouraged. Last June I was at BC Bandung. So far safe and I'd say pretty fair.", "url": "https://www.threads.com/@fudreee/post/DgH1EeLgdd2"}, {"id": "P3-53", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-24", "day": "2026-11-24", "handle": "@whatiamdoughinghere", "venue": "BC Pondok Indah & Cyber 2 Kuningan Jakarta", "views": null, "likes": null, "replies": null, "reposts": null, "summary": "Anak & teman-teman tes Juni-Oktober di BC Pondok Indah dan Kuningan lancar tanpa keanehan, skor 7.5-8.5.", "summary_en": "Child and peers tested June–Oct at BC Pondok Indah and Kuningan smoothly with scores 7.5–8.5.", "verbatim": "Anak saya dan teman2nya rata2 tes di BC dalam rentang waktu juni-oktober tahun ini. So far skornya bagus2 sih, antara 7.5 - 8.5. Mereka tes di BC pondok indah dan kuningan jakarta.", "verbatim_en": "My child and friends mostly tested at BC between June–October this year. So far scores were great, between 7.5 - 8.5. They tested at BC Pondok Indah and Kuningan Jakarta.", "url": "https://www.threads.com/@thriveward/post/DgG8z1RGMFf"}, {"id": "P3-54", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-14", "day": "2026-11-14", "handle": "@cherrieeees__", "venue": "BC Office 8 Senopati Jakarta", "views": null, "likes": null, "replies": null, "reposts": null, "summary": "Merekomendasikan BC Office 8 Senopati karena tempatnya nyaman.", "summary_en": "Recommends BC Office 8 Senopati South Jakarta for its comfortable venue.", "verbatim": "British Council di Office 8 Senop oke, tempatnnya nyaman banget.", "verbatim_en": "British Council at Office 8 Senopati is great, the place is super comfortable.", "url": "https://www.threads.com/@valenciafabiann/post/Dft3On_E0QE"}, {"id": "P3-55", "severity": "Low", "priority": "P3", "recordType": "Reply / Testimony", "recordType_en": "Reply / Testimony", "category": "Positive Counter-Narrative / Fair Experience", "category_en": "Positive Counter-Narrative / Fair Experience", "theme": "T6: Counter-Narratives & Neutral Comparisons", "sentiment": "Positive / Counter-Narrative", "date": "2026-11-12", "day": "2026-11-12", "handle": "@sunkissedfairy99", "venue": "BC vs IDP vs IALF", "views": null, "likes": 7, "replies": 4, "reposts": 3, "summary": "Menilai tes awal bulan di BC 'so so' (lebih baik dibanding pengalaman IDP yang keyboard-nya keras), sementara skor naik di IALF.", "summary_en": "Rates recent BC test as 'so so' (better than IDP's stiff keyboard & tough questions), while scores rose on IALF retake.", "verbatim": "aku sama temen2ku baru test awal bulan ini di IDP dan BC. yg BC so so sih, tapi yg IDP dapet soal yg susah dan examiner yg not generous.", "verbatim_en": "my friends and I just tested earlier this month at IDP and BC. BC was so-so, whereas IDP had hard questions and a not-generous examiner.", "url": "https://www.threads.com/@eflenglishforlearners/post/DfpGSLaE80_"}], "themes": [{"name": "T1: Scoring Opacity, Bias & EOR Discrepancies", "name_en": "T1: Scoring Opacity, Bias & EOR Discrepancies", "description": "Perceived anomalous scoring drops in Writing & Speaking vs. Reading/Listening or mocks, lack of detailed feedback, paid EOR/remark reversals (Rp1.8M–Rp2M), and educator boycott.", "description_en": "Perceived anomalous scoring drops in Writing & Speaking vs. Reading/Listening or mocks, lack of detailed feedback, paid EOR/remark reversals (Rp1.8M–Rp2M), and educator boycott.", "actors": "@qhajarahmad, @kholidiaalifahmei, @ddokiii, @uusmayantivivi, @xabrown, @mallorymistyday", "quote": "\"Saya merasa ada pola yang aneh (dan merugikan peserta) dalam penilaian writing dan speaking sejak 3-4 bulan terakhir.\" (@qhajarahmad)"}, {"name": "T2: Online Speaking Fragility & Forced Retakes", "name_en": "T2: Online Speaking Fragility & Forced Retakes", "description": "Video/Zoom lag, mid-test disconnections, examiner swaps, and forced repeat sessions (including a reported all-skills retake due to BC recording failure).", "description_en": "Video/Zoom lag, mid-test disconnections, examiner swaps, and forced repeat sessions (including a reported all-skills retake due to BC recording failure).", "actors": "@uswa_aftah, @ayuabece, @anggilani, @dreamingdreamy_, @odilapaskaa, @safirayusinta", "quote": "\"Pas speaking kira2 udah 70%an kelar, tiba2 gangguan koneksi, trus pas connect lg sm beda orang... malah jd kerja 2x.\" (@anggilani)"}, {"name": "T3: Hardware, Acoustics & Staff Conduct", "name_en": "T3: Hardware, Acoustics & Staff Conduct", "description": "Unadjustable dark monitor contrast, leaking or low-volume headsets, unannounced mandatory headset rule for online speaking, non-partitioned rooms, and dismissive proctors.", "description_en": "Unadjustable dark monitor contrast, leaking or low-volume headsets, unannounced mandatory headset rule for online speaking, non-partitioned rooms, and dismissive proctors.", "actors": "@vanilllaaaes, @nadyameriza, @iniellena, @nurkhalifahsaid, @dawnworldsz, @impiecka", "quote": "\"dapat layar yg kontras cahayanya gelap banget tapi ga bisa ditingkatin... langsung naruh headset di kepala gue\" (@vanilllaaaes)"}, {"name": "T4: Result Delays & Verification Friction", "name_en": "T4: Result Delays & Verification Friction", "description": "Unexplained result delays past H+1 (including Nov 14 exam still pending on Nov 24), scholarship portal 'has not been verified yet' status, and fears of unissued certificates.", "description_en": "Unexplained result delays past H+1 (including Nov 14 exam still pending on Nov 24), scholarship portal 'has not been verified yet' status, and fears of unissued certificates.", "actors": "@ydharma, @cassandra_renata, @avilaasidore, @jnfragns__", "quote": "\"Anak saya ambil ujian IELTS tgl 14 nov kmrn, hasilnya belum keluar. Temannya yg barengan sudah keluar.\" (@ydharma)"}, {"name": "T5: Viral Contagion, Anxiety & Competitor Spillover", "name_en": "T5: Viral Contagion, Anxiety & Competitor Spillover", "description": "Spillover panic among booked/prospective test-takers after Nov 23–24 viral threads, verbatim reposting, and opportunistic IDP partner promotion.", "description_en": "Spillover panic among booked/prospective test-takers after Nov 23–24 viral threads, verbatim reposting, and opportunistic IDP partner promotion.", "actors": "@thriveward, @fudreee, @phdwith.er, @going_to974, @englishstudio, @scholarpath.id1", "quote": "\"udah terlanjur book BC untuk test ielts pertamaku, terus muncul review2 tentang BC yang bikin insecure bgttt\" (@fudreee)"}, {"name": "T6: Counter-Narratives & Neutral Comparisons", "name_en": "T6: Counter-Narratives & Neutral Comparisons", "description": "Positive experiences at specific venues (Office 8 Senopati, Cyber 2 Kuningan, Pondok Indah, UI, Cilacs UII, BC Jogja/Bandung), defenses of examiner professionalism, and neutral IDP/BC comparisons.", "description_en": "Positive experiences at specific venues (Office 8 Senopati, Cyber 2 Kuningan, Pondok Indah, UI, Cilacs UII, BC Jogja/Bandung), defenses of examiner professionalism, and neutral IDP/BC comparisons.", "actors": "@ieltswithvendy, @nianrapr, @aghnia.anwar, @englishwithrifa, @ridloaulia, @whatiamdoughinghere, @anispahit", "quote": "\"aku take di BC jogja dan menurutku fair2 aja sesuai kemampuanku. pelayanan pas test juga okee kok\" (@englishwithrifa)"}], "branches": [{"location": "Jakarta (Salemba)", "location_en": "Jakarta (Salemba)", "risk": "High", "summary": "Ketimpangan skor Speaking (5.5 vs L/R 7.5) pada Okt 2026 (@yola_dr).", "summary_en": "Speaking score discrepancy (5.5 vs L/R 7.5) in Oct 2026 (@yola_dr).", "coverage": "1 keluhan skor", "coverage_en": "1 score complaint"}, {"location": "Jakarta (Umum / Pondok Indah / Kuningan / Senopati / UI)", "location_en": "Jakarta (General / Pondok Indah / Kuningan / Senopati / UI)", "risk": "High / Mixed", "summary": "3 murid @qhajarahmad lapor anomali skor 3-4 bulan terakhir; 1 kasus delay ~2 jam di 2023 (@safirayusinta); namun banyak feedback positif fasilitas & keadilan skor di Pondok Indah, Cyber 2 Kuningan, Office 8 Senopati, dan UI.", "summary_en": "3 students of @qhajarahmad reported score anomalies in past 3–4 months; 1 ~2h delay case in 2023 (@safirayusinta); however strong positive feedback on facilities & fair scoring at Pondok Indah, Cyber 2 Kuningan, Office 8 Senopati, and UI.", "coverage": "2 keluhan; 4+ positif", "coverage_en": "2 complaints; 4+ positive"}, {"location": "Yogyakarta (BC Jogja & Cilacs UII)", "location_en": "Yogyakarta (BC Jogja & Cilacs UII)", "risk": "High / Mixed", "summary": "Keluhan sinyal jelek -> tunda -> ganti penguji India & skor rendah (@ayuabece, ~19 Nov), keluhan sosmed BC Jogja (@iniellena), & blacklist oleh @qhajarahmad; namun ada testimoni positif fair scoring di BC Jogja & Cilacs UII (@aghnia.anwar, @englishwithrifa, @i_m_k_y_o).", "summary_en": "Poor signal -> delayed test -> switched to Indian examiner & low scores (@ayuabece, ~Nov 19), BC Jogja social monitoring complaint (@iniellena), & @qhajarahmad blacklist; countered by positive fair-scoring reports at BC Jogja & Cilacs UII (@aghnia.anwar, @englishwithrifa, @i_m_k_y_o).", "coverage": "3 keluhan/catatan negatif; 3 positif", "coverage_en": "3 negative notes; 3 positive"}, {"location": "Bandung", "location_en": "Bandung", "risk": "Critical / Mixed", "summary": "Kasus banding/remark berbayar menaikkan skor +1.0 S / +0.5 W (@uusmayantivivi), Speaking 2x karena skor sesi 1 gagal terekap (@dreamingdreamy_), catatan @qhajarahmad; kontra-testimoni aman & fair Juni 2026 (@aruuudb).", "summary_en": "Paid remark/appeal raised score +1.0 S / +0.5 W (@uusmayantivivi), 2x Speaking after first score failed to record (@dreamingdreamy_), @qhajarahmad note; countered by safe/fair June 2026 report (@aruuudb).", "coverage": "3 keluhan/catatan negatif; 1 positif", "coverage_en": "3 negative notes; 1 positive"}, {"location": "Surabaya (termasuk info LIA)", "location_en": "Surabaya (incl. LIA note)", "risk": "Medium", "summary": "1 kasus penghentian & pengulangan Speaking dengan penguji jutek pada Juli 2026 (@nurkhalifahsaid); catatan penyelenggaraan BC di LIA Surabaya (@mrs.kikiyy).", "summary_en": "1 interrupted & restarted Speaking session with a curt examiner in July 2026 (@nurkhalifahsaid); note on BC Surabaya testing hosted at LIA (@mrs.kikiyy).", "coverage": "1 keluhan; 1 info", "coverage_en": "1 complaint; 1 info"}, {"location": "Medan (UPT Bahasa Unimed)", "location_en": "Medan (UPT Bahasa Unimed)", "risk": "Medium", "summary": "Ruangan tes disebut tanpa sekat namun aman saat peserta hanya 2 orang (@impiecka, Juli 2026).", "summary_en": "Testing room noted as lacking partitions, though fine when only 2 candidates attended (@impiecka, July 2026).", "coverage": "1 catatan fasilitas", "coverage_en": "1 facility note"}, {"location": "BC Indonesia (Cabang Tidak Disebutkan)", "location_en": "BC Indonesia (Branch Unspecified)", "risk": "Critical", "summary": "Pusat eskalasi viral (@qhajarahmad 147K views, @kholidiaalifahmei 38.7K views), EOR Rp2 juta berhasil (@ddokiii), retake all skills (@uswa_aftah), hasil 14 Nov belum keluar (@ydharma), layar gelap/staf tidak sopan (@vanilllaaaes), & gelombang kecemasan pendaftar.", "summary_en": "Epicenter of viral escalation (@qhajarahmad 147K views, @kholidiaalifahmei 38.7K views), Rp2M EOR overturn (@ddokiii), all-skills retake (@uswa_aftah), unreleased Nov 14 results (@ydharma), dark screen/rude staff (@vanilllaaaes), & pre-test anxiety wave.", "coverage": "Mayoritas postingan & balasan", "coverage_en": "Majority of posts & replies"}]};
+    const SEV_ORDER = { Critical: 0, High: 1, Medium: 2, Low: 3 };
+    const SEV_COLORS = { Critical: "var(--critical)", High: "var(--high)", Medium: "var(--medium)", Low: "var(--low)" };
+    const SENT_COLORS = {
+      "Negative": "var(--critical)",
+      "Anxious / Mixed": "var(--high)",
+      "Neutral / Info": "var(--muted)",
+      "Positive / Counter-Narrative": "var(--low)"
+    };
+
+    const I18N = {
+      id: {
+        subtitle: "Observasi 25 Okt – 25 Nov 2026 | 55 item terkode | Temuan & UI Dwibahasa (Konten Asli Tetap ID + Opsi Translate)",
+        methBtn: "Metode Pengumpulan Data",
+        darkMode: "Mode Gelap",
+        lightMode: "Mode Terang",
+        exportCsv: "Ekspor CSV Explorer",
+        tabs: ["Ringkasan & Grafik", "Explorer Insiden (55)", "Analisis Tematik (6)", "RCA (5 Whys & Fishbone)", "Prioritas & Action Board", "MarComm & PR Plan"],
+        kpi: [
+          ["Total Item Terkode", "Postingan utama & testimoni Threads"],
+          ["Critical + High (P0/P1)", "dari seluruh temuan terklasifikasi"],
+          ["Sentimen Negatif vs Positif", "negatif | positif"],
+          ["Total Engagement Terlapor", "likes (puncak @qhajarahmad 147K views)"]
+        ],
+        methBannerTitle: "Metode Pengumpulan & Pengkodean Data (25 Oktober – 25 November 2026)",
+        methBannerBody: "Data dikumpulkan langsung dari Meta Threads (threads.com) menggunakan sesi login terautentikasi untuk periode 25 Okt – 25 Nov 2026. Penelusuran mencakup tab Top (Teratas) dan Recent (Terbaru) serta Advanced Search filter tanggal pada kata kunci #ielts, #britishcouncil, \"ielts british council\", \"British Council Indonesia\", \"tes IELTS British Council\", \"IELTS BC\", dan kueri lokal pendukung. Sebanyak 55 postingan utama dan balasan substantif berbahasa Indonesia dari Indonesia dikodekan berdasarkan tingkat keparahan (Critical–Low), 6 tema, sentimen, serta lokasi cabang.",
+        methDialogTitle: "Metodologi Pengumpulan & Pengkodean Data",
+        methDetails: [
+          "<strong>1. Platform & Sesi:</strong> Meta Threads (<code>https://www.threads.com</code>) diakses melalui sesi terautentikasi (logged-in) pada 25 November 2026 (WIB / UTC+7).",
+          "<strong>2. Rentang Waktu & Wilayah:</strong> Periode 25 Oktober 2026 – 25 November 2026, difokuskan pada postingan dan balasan berbahasa Indonesia (atau peserta dari Indonesia) mengenai tes IELTS British Council di Indonesia.",
+          "<strong>3. Kata Kunci & Strategi Penelusuran:</strong> Pencarian lintas tab <em>Top</em> dan <em>Recent</em> dengan <em>Advanced Search</em> filter waktu serta kombinasi <code>exact_match=true/false</code> untuk: <code>ielts british council</code> (guliran penuh hingga 24 Okt 2026), <code>British Council Indonesia</code>, <code>tes IELTS British Council</code>, <code>IELTS BC</code>, <code>#britishcouncil</code>, <code>#ielts</code>, serta kueri pendukung (<code>British Council</code>, <code>tes di BC</code>, <code>ielts idp bc</code>), termasuk verifikasi profil relevan.",
+          "<strong>4. Ekstraksi & Pengkodean Manual (n = 55):</strong> Setiap utas relevan dibuka untuk mengambil URL, handle penulis, timestamp, teks verbatim (ID), metrik interaksi terlapor (views, likes, replies, reposts), dan balasan penting, lalu dikodekan ke dalam 4 tingkat severity, 9 kategori isu, 6 tema utama, sentimen, dan matriks cabang."
+        ],
+        ovSevTitle: "Distribusi Severity & Konsentrasi Engagement",
+        ovSevSub: "Klik baris severity untuk memfilter pada Explorer Insiden.",
+        ovSentTitle: "Profil Sentimen Keseluruhan (n = 55)",
+        ovSentSub: "Dominasi sentimen negatif (54,5%) dengan kontra-narasi positif (21,8%).",
+        ovTlTitle: "Timeline Eskalasi Krisis (1 – 25 November 2026)",
+        ovTlSub: "Arahkan kursor atau fokus ke batang harian untuk detail item dan likes terlapor.",
+        ovTlEmpty: "Arahkan kursor ke tanggal pada grafik untuk detail harian.",
+        ovCatTitle: "Kategori Isu Teratas",
+        ovCatSub: "Klik kategori untuk memfilter item terkait.",
+        ovBrTitle: "Matriks Cabang / Lokasi Tes BC",
+        ovBrSub: "Kontras risiko antara cabang yang dikeluhkan dan cabang berulasan positif.",
+        expSearchLbl: "Cari:",
+        expPlaceholder: "Cari handle (@qhajarahmad), lokasi (Jogja, Bandung), atau kata kunci...",
+        allThemes: "Semua Tema (6)",
+        allSent: "Semua Sentimen",
+        sortOpts: [
+          ["severity", "Urutkan: Severity (Critical → Low)"],
+          ["date-desc", "Urutkan: Tanggal Terbaru"],
+          ["likes-desc", "Urutkan: Likes Terbanyak"],
+          ["views-desc", "Urutkan: Views Terbanyak"]
+        ],
+        allSevPill: "Semua (55)",
+        resetFilters: "Reset Filter",
+        showingCount: (n, tot) => `Menampilkan ${n} dari ${tot} item`,
+        thCols: ["ID", "Severity", "Tanggal", "Handle", "Lokasi / Cabang", "Tema", "Likes", "Views", "Temuan & Aksi"],
+        noMatch: "Tidak ada item yang cocok dengan filter saat ini.",
+        viewVerbatim: "Lihat Verbatim",
+        addBoardBtn: "+ Action Board",
+        seeItemsInExp: (n) => `Lihat ${n} Item di Explorer`,
+        keyAccounts: "Akun kunci:",
+        verbatimQuoteNote: "Kutipan asli (ID):",
+        boardFilterLbl: "Filter Backlog:",
+        boardPlaceholder: "Cari rekomendasi, cabang (Jogja, Bandung), atau PIC...",
+        allFns: "Semua Fungsi",
+        allPrios: "Semua Prioritas",
+        sortByScore: "Urutkan per Skor Prioritas",
+        newTaskPlaceholder: "Tambah rekomendasi / item tindak lanjut baru...",
+        addTaskBtn: "+ Tambah ke Backlog",
+        exportPlanCsv: "Ekspor Action Plan CSV",
+        resetBoard: "Reset Board",
+        backlogTitle: "Backlog Rekomendasi & Triage",
+        backlogHint: "Atur Impact / Urgency / Effort, naik/turunkan, atau drag ke Action Plan →",
+        actionTitle: "Action Plan Prioritas (Eksekusi)",
+        actionHint: "Drag untuk urutkan ulang atau klik ↑/↓",
+        backlogCount: (vis, tot) => `${vis} item tampil (total backlog: ${tot})`,
+        actionCount: (tot, p0, done) => `${tot} item di Action Plan (${p0} P0 · ${done} selesai)`,
+        emptyBacklog: "Tidak ada item backlog yang sesuai filter (atau semua sudah dipindahkan ke Action Plan).",
+        emptyAction: "Seret item dari Backlog ke sini atau klik \"→ Masuk Action Plan\".",
+        toAction: "→ Masuk Action Plan",
+        toBacklog: "← Kembalikan ke Backlog",
+        doneLabel: "Selesai",
+        evidenceLbl: "Bukti:",
+        dialogClose: "Tutup",
+        dialogDone: "Selesai",
+        dialogOpenUrl: "Buka di Threads",
+        dialogEscalate: "+ Eskalasi ke Action Board",
+        verbatimOrigLbl: "Konten Asli (Bahasa Indonesia — Verbatim):",
+        verbatimTransLbl: "Terjemahan Bahasa Inggris (EN):",
+        btnToEn: "Terjemahkan ke EN",
+        btnToOrig: "Tampilkan Asli (ID)",
+        footer: "Data Meta Threads (25 Okt – 25 Nov 2026) | Bahasa UI dapat diganti ID/EN; konten postingan tetap asli ID dengan opsi terjemahan."
+      },
+      en: {
+        subtitle: "Observation Window: Oct 25 – Nov 25, 2026 | 55 Coded Items | Bilingual Findings & UI (Original Posts Preserved in ID + Translate Option)",
+        methBtn: "Data Collection Methodology",
+        darkMode: "Dark Mode",
+        lightMode: "Light Mode",
+        exportCsv: "Export Explorer CSV",
+        tabs: ["Overview & Charts", "Incident Explorer (55)", "Thematic Analysis (6)", "RCA (5 Whys & Fishbone)", "Prioritization & Action Board", "MarComm & PR Plan"],
+        kpi: [
+          ["Total Coded Items", "Original posts & substantive Threads replies"],
+          ["Critical + High (P0/P1)", "of all classified findings"],
+          ["Negative vs Positive Sentiment", "negative | positive"],
+          ["Total Reported Engagement", "likes (peak @qhajarahmad 147K views)"]
+        ],
+        methBannerTitle: "Data Collection & Coding Methodology (October 25 – November 25, 2026)",
+        methBannerBody: "Data was collected directly from Meta Threads (threads.com) using an authenticated logged-in session for Oct 25 – Nov 25, 2026. Searches covered both Top and Recent tabs alongside Advanced Search date filters across #ielts, #britishcouncil, \"ielts british council\", \"British Council Indonesia\", \"tes IELTS British Council\", \"IELTS BC\", and supporting local queries. A total of 55 Indonesian-language posts and substantive replies from Indonesia were coded by severity (Critical–Low), 6 themes, sentiment, and venue/city.",
+        methDialogTitle: "Data Collection & Coding Methodology",
+        methDetails: [
+          "<strong>1. Platform & Session:</strong> Meta Threads (<code>https://www.threads.com</code>) accessed via an authenticated logged-in browser session on November 25, 2026 (WIB / UTC+7).",
+          "<strong>2. Timeframe & Scope:</strong> October 25 – November 25, 2026, focusing on Indonesian-language posts and replies (or Indonesia-based candidates) concerning British Council IELTS testing in Indonesia.",
+          "<strong>3. Keywords & Search Strategy:</strong> Queried both <em>Top</em> and <em>Recent</em> tabs with <em>Advanced Search</em> date filtering and <code>exact_match=true/false</code> for: <code>ielts british council</code> (scrolled through Oct 24, 2026), <code>British Council Indonesia</code>, <code>tes IELTS British Council</code>, <code>IELTS BC</code>, <code>#britishcouncil</code>, <code>#ielts</code>, and supporting local queries (<code>British Council</code>, <code>tes di BC</code>, <code>ielts idp bc</code>), plus profile verification.",
+          "<strong>4. Extraction & Manual Coding (n = 55):</strong> Each relevant thread was opened to capture exact URL, author handle, timestamp, verbatim Indonesian text, reported engagement metrics (views, likes, replies, reposts), and key replies—then coded across 4 severity tiers, 9 issue categories, 6 overarching themes, sentiment, and branch/venue matrix."
+        ],
+        ovSevTitle: "Severity Distribution & Engagement Concentration",
+        ovSevSub: "Click any severity row to filter directly in the Incident Explorer.",
+        ovSentTitle: "Overall Sentiment Profile (n = 55)",
+        ovSentSub: "Negative sentiment dominates (54.5%) alongside positive counter-narratives (21.8%).",
+        ovTlTitle: "Crisis Escalation Timeline (Nov 1 – Nov 25, 2026)",
+        ovTlSub: "Hover or focus on any daily bar to view item counts and reported likes.",
+        ovTlEmpty: "Hover over a date bar on the chart for daily details.",
+        ovCatTitle: "Top Issue Categories",
+        ovCatSub: "Click a category to filter matching items.",
+        ovBrTitle: "BC Branch / Test Venue Matrix",
+        ovBrSub: "Risk contrast between complained centers and positively reviewed venues.",
+        expSearchLbl: "Search:",
+        expPlaceholder: "Search handle (@qhajarahmad), venue (Jogja, Bandung), or keyword...",
+        allThemes: "All Themes (6)",
+        allSent: "All Sentiments",
+        sortOpts: [
+          ["severity", "Sort: Severity (Critical → Low)"],
+          ["date-desc", "Sort: Newest Date"],
+          ["likes-desc", "Sort: Most Likes"],
+          ["views-desc", "Sort: Most Views"]
+        ],
+        allSevPill: "All (55)",
+        resetFilters: "Reset Filters",
+        showingCount: (n, tot) => `Showing ${n} of ${tot} items`,
+        thCols: ["ID", "Severity", "Date", "Handle", "Venue / Branch", "Theme", "Likes", "Views", "Finding & Actions"],
+        noMatch: "No items match the current filters.",
+        viewVerbatim: "View Verbatim",
+        addBoardBtn: "+ Action Board",
+        seeItemsInExp: (n) => `View ${n} Items in Explorer`,
+        keyAccounts: "Key accounts:",
+        verbatimQuoteNote: "Original quote (ID):",
+        boardFilterLbl: "Filter Backlog:",
+        boardPlaceholder: "Search recommendations, venues (Jogja, Bandung), or owners...",
+        allFns: "All Functions",
+        allPrios: "All Priorities",
+        sortByScore: "Sort by Priority Score",
+        newTaskPlaceholder: "Add new recommendation / follow-up item...",
+        addTaskBtn: "+ Add to Backlog",
+        exportPlanCsv: "Export Action Plan CSV",
+        resetBoard: "Reset Board",
+        backlogTitle: "Recommendations & Triage Backlog",
+        backlogHint: "Adjust Impact / Urgency / Effort, reorder, or drag to Action Plan →",
+        actionTitle: "Prioritized Action Plan (Execution)",
+        actionHint: "Drag to reorder sequence or click ↑/↓",
+        backlogCount: (vis, tot) => `${vis} shown (total backlog: ${tot})`,
+        actionCount: (tot, p0, done) => `${tot} items in Action Plan (${p0} P0 · ${done} done)`,
+        emptyBacklog: "No backlog items match the filter (or all moved to Action Plan).",
+        emptyAction: "Drag items from Backlog here or click \"→ Move to Action Plan\".",
+        toAction: "→ Move to Action Plan",
+        toBacklog: "← Return to Backlog",
+        doneLabel: "Done",
+        evidenceLbl: "Evidence:",
+        dialogClose: "Close",
+        dialogDone: "Done",
+        dialogOpenUrl: "Open on Threads",
+        dialogEscalate: "+ Escalate to Action Board",
+        verbatimOrigLbl: "Original Content (Indonesian — Verbatim):",
+        verbatimTransLbl: "English Translation (EN):",
+        btnToEn: "Translate to EN",
+        btnToOrig: "Show Original (ID)",
+        footer: "Meta Threads Data (Oct 25 – Nov 25, 2026) | Switch UI/findings between ID & EN; original posts remain in Indonesian with on-demand translation."
+      }
+    };
+
+    const DEFAULT_BOARD_TASKS = [
+      { id: "OPS-01", title: "Lacak & selesaikan hasil tes 14 Nov 2026 + jalur cepat verifikasi TRF beasiswa", title_en: "Trace & release pending Nov 14 test results + fast-track scholarship TRF verification", fn: "Operasional Cabang", fn_en: "Branch Operations", prio: "P0", horizon: "0–24 Jam", horizon_en: "0–24 Hours", impact: 5, urgency: 5, effort: 2, zone: "action", done: false, evidence: "@ydharma, @cassandra_renata" },
+      { id: "MC-01", title: "Publikasikan Holding Statement resmi (IG/Web) & kirim Email/WA H-3 Pre-Test Reassurance", title_en: "Publish official Holding Statement (IG/Web) & send H-3 Email/WA Pre-Test Reassurance", fn: "MarComm & PR", fn_en: "MarComm & PR", prio: "P0", horizon: "0–24 Jam", horizon_en: "0–24 Hours", impact: 5, urgency: 5, effort: 2, zone: "action", done: false, evidence: "@thriveward, @fudreee, @phdwith.er" },
+      { id: "OPS-02", title: "Audit QA mendadak di BC Jogja, Bandung, Salemba & Unimed (layar, headset anti-bocor, sekat)", title_en: "Spot QA audit at BC Jogja, Bandung, Salemba & Unimed (screens, sound-isolated headsets, partitions)", fn: "Operasional Cabang", fn_en: "Branch Operations", prio: "P0", horizon: "Hari 2–7", horizon_en: "Days 2–7", impact: 5, urgency: 4, effort: 3, zone: "action", done: false, evidence: "@vanilllaaaes, @nadyameriza, @ayuabece" },
+      { id: "IT-01", title: "Pasang jalur failover jaringan Speaking & verifikasi unggahan rekaman sebelum peserta pulang", title_en: "Deploy Speaking network failover & verify audio/video upload before candidates leave venue", fn: "IT & Online Speaking", fn_en: "IT & Online Speaking", prio: "P1", horizon: "Hari 2–7", horizon_en: "Days 2–7", impact: 5, urgency: 4, effort: 3, zone: "backlog", done: false, evidence: "@anggilani, @dreamingdreamy_, @ddokiii" },
+      { id: "QA-01", title: "Terapkan kebijakan Single-Skill Remediation (hanya ulang Speaking bila gangguan dari pusat tes)", title_en: "Enforce Single-Skill Remediation policy (retake Speaking only when center tech fails)", fn: "QA & Kebijakan", fn_en: "QA & Policy", prio: "P1", horizon: "Hari 2–7", horizon_en: "Days 2–7", impact: 5, urgency: 4, effort: 2, zone: "backlog", done: false, evidence: "@uswa_aftah, @kholidiaalifahmei" },
+      { id: "SDM-01", title: "SOP Anti-Blaming & pelatihan service recovery pengawas saat peserta melapor lag/audio kecil", title_en: "Anti-Blaming SOP & proctor service-recovery training for lag/low-volume complaints", fn: "SDM & Proctor", fn_en: "HR & Proctors", prio: "P1", horizon: "Hari 2–7", horizon_en: "Days 2–7", impact: 4, urgency: 4, effort: 2, zone: "backlog", done: false, evidence: "@odilapaskaa, @vanilllaaaes" },
+      { id: "MC-02", title: "Aktivasi kehadiran resmi & social listening Threads untuk menutup celah komunikasi publik", title_en: "Establish official Threads presence & social listening SLA to close public comms vacuum", fn: "MarComm & PR", fn_en: "MarComm & PR", prio: "P1", horizon: "Hari 2–7", horizon_en: "Days 2–7", impact: 4, urgency: 4, effort: 3, zone: "backlog", done: false, evidence: "Comms gap on Threads, @englishstudio" },
+      { id: "QA-02", title: "Audit tren pembalikan skor EOR 4 bulan terakhir (Agu–Nov 2026) per cabang & per modul", title_en: "Audit 4-month EOR score-reversal trends (Aug–Nov 2026) by test center and module", fn: "QA & Kebijakan", fn_en: "QA & Policy", prio: "P1", horizon: "Hari 8–30", horizon_en: "Days 8–30", impact: 5, urgency: 3, effort: 4, zone: "backlog", done: false, evidence: "@qhajarahmad, @ddokiii, @uusmayantivivi" },
+      { id: "MC-03", title: "Outreach & Educator QA Briefing bersama pengajar/mitra IELTS vokal di Indonesia", title_en: "Direct outreach & Educator QA Briefing with vocal Indonesian IELTS teachers & prep partners", fn: "MarComm & PR", fn_en: "MarComm & PR", prio: "P1", horizon: "Hari 8–30", horizon_en: "Days 8–30", impact: 4, urgency: 3, effort: 3, zone: "backlog", done: false, evidence: "@qhajarahmad, @rennyanggraini, @gustirapahlevi" },
+      { id: "MC-04", title: "Rilis konten edukasi 'Behind the IELTS Standard' (kalibrasi penguji, interupsi normal, alur EOR)", title_en: "Publish 'Behind the IELTS Standard' educational series (calibration, normal interruptions, EOR rules)", fn: "MarComm & PR", fn_en: "MarComm & PR", prio: "P2", horizon: "Hari 2–7", horizon_en: "Days 2–7", impact: 3, urgency: 3, effort: 2, zone: "backlog", done: false, evidence: "@ieltswithvendy, @mallorymistyday" },
+      { id: "OPS-03", title: "Tambahkan infografis aturan wajib headset Speaking online di email konfirmasi H-3", title_en: "Add mandatory online-Speaking headset infographic to H-3 confirmation emails", fn: "Operasional Cabang", fn_en: "Branch Operations", prio: "P2", horizon: "0–24 Jam", horizon_en: "0–24 Hours", impact: 3, urgency: 4, effort: 1, zone: "backlog", done: false, evidence: "@dawnworldsz, @nianrapr" },
+      { id: "MC-05", title: "Publikasikan Facility Upgrade Update & sorot venue berulasan positif (Senopati, Kuningan, PI, UI)", title_en: "Publish Facility Upgrade Update & spotlight top-rated venues (Senopati, Kuningan, PI, UI)", fn: "MarComm & PR", fn_en: "MarComm & PR", prio: "P2", horizon: "Hari 8–30", horizon_en: "Days 8–30", impact: 3, urgency: 2, effort: 2, zone: "backlog", done: false, evidence: "@cherrieeees__, @whatiamdoughinghere, @ridloaulia" }
+    ];
+
+    const STORAGE_KEY = "bc_crisis_triage_board_v2";
+    const LANG_KEY = "bc_crisis_lang_v1";
+    let lang = localStorage.getItem(LANG_KEY) === "en" ? "en" : "id";
+    let boardTasks = loadBoardTasks();
+
+    function loadBoardTasks() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length) return parsed;
+        }
+      } catch {}
+      return structuredClone(DEFAULT_BOARD_TASKS);
+    }
+
+    function saveBoardTasks() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(boardTasks)); } catch {}
+    }
+
+    function calcPriorityScore(t) {
+      return Number(((t.impact * t.urgency) / Math.max(1, t.effort)).toFixed(1));
+    }
+
+    let state = { severity: "ALL", theme: "ALL", sentiment: "ALL", query: "", sort: "severity" };
+    let boardFilter = { query: "", fn: "ALL", prio: "ALL" };
+    let currentDialogItem = null;
+    let showTranslatedVerbatim = false;
+
+    const liveStatus = document.getElementById("live-status");
+    function announce(msg) {
+      liveStatus.textContent = "";
+      setTimeout(() => { liveStatus.textContent = msg; }, 40);
+    }
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+    }
+
+    // Language switcher
+    function setLanguage(newLang) {
+      lang = newLang;
+      localStorage.setItem(LANG_KEY, lang);
+      document.documentElement.lang = lang;
+      document.getElementById("lang-id").setAttribute("aria-pressed", String(lang === "id"));
+      document.getElementById("lang-en").setAttribute("aria-pressed", String(lang === "en"));
+      renderAll();
+    }
+    document.getElementById("lang-id").addEventListener("click", () => setLanguage("id"));
+    document.getElementById("lang-en").addEventListener("click", () => setLanguage("en"));
+
+    // Theme toggle
+    const themeBtn = document.getElementById("theme-toggle");
+    themeBtn.addEventListener("click", () => {
+      const root = document.documentElement;
+      const isDark = root.getAttribute("data-theme") === "dark";
+      root.setAttribute("data-theme", isDark ? "light" : "dark");
+      themeBtn.textContent = isDark ? I18N[lang].darkMode : I18N[lang].lightMode;
+    });
+
+    // Accessible Tabs
+    const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
+    const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+
+    function activateTab(targetTab, moveFocus = false) {
+      tabs.forEach((t, i) => {
+        const selected = t === targetTab;
+        t.setAttribute("aria-selected", String(selected));
+        panels[i].hidden = !selected;
+        if (selected) panels[i].setAttribute("tabindex", "0");
+        else panels[i].removeAttribute("tabindex");
+      });
+      targetTab.scrollIntoView({ block: "nearest", inline: "nearest" });
+      if (moveFocus) targetTab.focus();
+    }
+
+    tabs.forEach((tab, idx) => {
+      tab.addEventListener("click", () => activateTab(tab));
+      tab.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight") activateTab(tabs[(idx + 1) % tabs.length], true);
+        else if (e.key === "ArrowLeft") activateTab(tabs[(idx - 1 + tabs.length) % tabs.length], true);
+        else if (e.key === "Home") activateTab(tabs[0], true);
+        else if (e.key === "End") activateTab(tabs[tabs.length - 1], true);
+      });
+    });
+
+    function renderStaticUI() {
+      const t = I18N[lang];
+      document.getElementById("hdr-subtitle").textContent = t.subtitle;
+      document.getElementById("open-methodology").textContent = t.methBtn;
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      themeBtn.textContent = isDark ? t.lightMode : t.darkMode;
+      document.getElementById("export-csv").textContent = t.exportCsv;
+      tabs.forEach((tab, i) => { tab.textContent = t.tabs[i]; });
+
+      document.getElementById("methodology-banner").innerHTML = `
+        <h2 style="margin:0 0 6px;">${escapeHtml(t.methBannerTitle)}</h2>
+        <p style="margin:0; font-size:0.88rem; color:var(--muted);">${escapeHtml(t.methBannerBody)}</p>
+      `;
+
+      document.getElementById("ov-sev-title").textContent = t.ovSevTitle;
+      document.getElementById("ov-sev-sub").textContent = t.ovSevSub;
+      document.getElementById("ov-sent-title").textContent = t.ovSentTitle;
+      document.getElementById("ov-sent-sub").textContent = t.ovSentSub;
+      document.getElementById("ov-tl-title").textContent = t.ovTlTitle;
+      document.getElementById("ov-tl-sub").textContent = t.ovTlSub;
+      document.getElementById("timeline-tooltip").textContent = t.ovTlEmpty;
+      document.getElementById("ov-cat-title").textContent = t.ovCatTitle;
+      document.getElementById("ov-cat-sub").textContent = t.ovCatSub;
+      document.getElementById("ov-br-title").textContent = t.ovBrTitle;
+      document.getElementById("ov-br-sub").textContent = t.ovBrSub;
+
+      // Explorer controls
+      document.getElementById("exp-search-lbl").textContent = t.expSearchLbl;
+      document.getElementById("q").placeholder = t.expPlaceholder;
+      document.getElementById("reset-filters").textContent = t.resetFilters;
+      document.querySelector('.pill-btn[data-sev="ALL"]').textContent = t.allSevPill;
+
+      const themeSelect = document.getElementById("filter-theme");
+      const prevTheme = state.theme;
+      themeSelect.innerHTML = `<option value="ALL">${escapeHtml(t.allThemes)}</option>` +
+        DATA.themes.map(th => `<option value="${escapeHtml(th.name)}">${escapeHtml(lang === "en" ? th.name_en : th.name)}</option>`).join("");
+      themeSelect.value = prevTheme;
+
+      const sentSel = document.getElementById("filter-sentiment");
+      const prevSent = state.sentiment;
+      sentSel.innerHTML = `<option value="ALL">${escapeHtml(t.allSent)}</option>` +
+        ["Negative", "Anxious / Mixed", "Neutral / Info", "Positive / Counter-Narrative"]
+          .map(s => `<option value="${s}">${s}</option>`).join("");
+      sentSel.value = prevSent;
+
+      const sortSel = document.getElementById("sort-by");
+      const prevSort = state.sort;
+      sortSel.innerHTML = t.sortOpts.map(([v, lbl]) => `<option value="${v}">${escapeHtml(lbl)}</option>`).join("");
+      sortSel.value = prevSort;
+
+      document.getElementById("explorer-thead").innerHTML = `<tr>${t.thCols.map((c, idx) => `<th${idx === 6 || idx === 7 ? ' class="num"' : ''}>${escapeHtml(c)}</th>`).join("")}</tr>`;
+
+      // Board controls
+      document.getElementById("brd-filter-lbl").textContent = t.boardFilterLbl;
+      document.getElementById("board-q").placeholder = t.boardPlaceholder;
+      document.getElementById("sort-by-score").textContent = t.sortByScore;
+      document.getElementById("new-task-title").placeholder = t.newTaskPlaceholder;
+      document.getElementById("add-task-btn").textContent = t.addTaskBtn;
+      document.getElementById("export-plan-csv").textContent = t.exportPlanCsv;
+      document.getElementById("reset-board").textContent = t.resetBoard;
+      document.getElementById("backlog-heading").textContent = t.backlogTitle;
+      document.getElementById("backlog-hint").textContent = t.backlogHint;
+      document.getElementById("action-heading").textContent = t.actionTitle;
+      document.getElementById("action-hint").textContent = t.actionHint;
+
+      const fns = [
+        ["Operasional Cabang", "Branch Operations"],
+        ["IT & Online Speaking", "IT & Online Speaking"],
+        ["QA & Kebijakan", "QA & Policy"],
+        ["SDM & Proctor", "HR & Proctors"],
+        ["MarComm & PR", "MarComm & PR"]
+      ];
+      const bf = document.getElementById("board-fn");
+      const prevFn = boardFilter.fn;
+      bf.innerHTML = `<option value="ALL">${escapeHtml(t.allFns)}</option>` +
+        fns.map(([idName, enName]) => `<option value="${idName}">${escapeHtml(lang === "en" ? enName : idName)}</option>`).join("");
+      bf.value = prevFn;
+
+      const ntf = document.getElementById("new-task-fn");
+      ntf.innerHTML = fns.map(([idName, enName]) => `<option value="${idName}">${escapeHtml(lang === "en" ? enName : idName)}</option>`).join("");
+
+      const bp = document.getElementById("board-prio");
+      const prevP = boardFilter.prio;
+      bp.innerHTML = `<option value="ALL">${escapeHtml(t.allPrios)}</option>` +
+        [["P0", lang === "en" ? "P0 (Critical)" : "P0 (Kritis)"], ["P1", lang === "en" ? "P1 (High)" : "P1 (Tinggi)"], ["P2", lang === "en" ? "P2 (Medium)" : "P2 (Sedang)"]]
+          .map(([v, l]) => `<option value="${v}">${escapeHtml(l)}</option>`).join("");
+      bp.value = prevP;
+
+      // Methodology modal
+      document.getElementById("meth-title").textContent = t.methDialogTitle;
+      document.getElementById("meth-close").textContent = t.dialogClose;
+      document.getElementById("meth-body").innerHTML = t.methDetails.map(p => `<p style="margin:0;">${p}</p>`).join("");
+
+      document.getElementById("dialog-close-top").textContent = t.dialogClose;
+      document.getElementById("dialog-close-bot").textContent = t.dialogDone;
+      document.getElementById("dialog-url").textContent = t.dialogOpenUrl;
+      document.getElementById("dialog-escalate").textContent = t.dialogEscalate;
+      document.getElementById("page-footer").textContent = t.footer;
+    }
+
+    function renderKPIs() {
+      const items = DATA.items;
+      const t = I18N[lang];
+      const critHigh = items.filter(i => i.severity === "Critical" || i.severity === "High").length;
+      const negCount = items.filter(i => i.sentiment === "Negative").length;
+      const posCount = items.filter(i => i.sentiment === "Positive / Counter-Narrative").length;
+      const totalLikes = items.reduce((s, i) => s + (i.likes || 0), 0);
+      const totalViews = items.reduce((s, i) => s + (i.views || 0), 0);
+
+      const vals = [
+        items.length,
+        critHigh,
+        `${negCount} vs ${posCount}`,
+        `${(totalViews / 1000).toFixed(1)}K views`
+      ];
+      const metas = [
+        t.kpi[0][1],
+        `${((critHigh / items.length) * 100).toFixed(1)}% ${t.kpi[1][1]}`,
+        `${((negCount / items.length) * 100).toFixed(1)}% ${t.kpi[2][1].split("|")[0]}| ${((posCount / items.length) * 100).toFixed(1)}% ${t.kpi[2][1].split("|")[1]}`,
+        `${totalLikes.toLocaleString("en-US")} ${t.kpi[3][1]}`
+      ];
+
+      document.getElementById("kpi-grid").innerHTML = t.kpi.map(([lbl], i) => `
+        <div class="kpi-card">
+          <div class="kpi-label">${escapeHtml(lbl)}</div>
+          <div class="kpi-value">${escapeHtml(vals[i])}</div>
+          <div class="kpi-meta">${escapeHtml(metas[i])}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderOverview() {
+      const items = DATA.items;
+      const maxSev = 18;
+      document.getElementById("chart-severity").innerHTML = ["Critical", "High", "Medium", "Low"].map(sev => {
+        const subset = items.filter(i => i.severity === sev);
+        const likes = subset.reduce((s, i) => s + (i.likes || 0), 0);
+        const views = subset.reduce((s, i) => s + (i.views || 0), 0);
+        return `
+          <div class="bar-row">
+            <div class="bar-head">
+              <button type="button" class="bar-btn jump-sev" data-sev="${sev}">${sev} (${subset.length} ${lang === "en" ? "items" : "item"})</button>
+              <span class="subtitle">${likes.toLocaleString("en-US")} likes${views ? ` · ${(views/1000).toFixed(1)}K views` : ""}</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:${(subset.length / maxSev) * 100}%; background:${SEV_COLORS[sev]}"></div></div>
+          </div>
+        `;
+      }).join("");
+
+      const sentOrder = ["Negative", "Positive / Counter-Narrative", "Neutral / Info", "Anxious / Mixed"];
+      document.getElementById("chart-sentiment").innerHTML = sentOrder.map(sent => {
+        const cnt = items.filter(i => i.sentiment === sent).length;
+        const pct = (cnt / items.length) * 100;
+        return `
+          <div class="bar-row">
+            <div class="bar-head">
+              <button type="button" class="bar-btn jump-sent" data-sent="${sent}">${sent}</button>
+              <span class="subtitle">${cnt} (${pct.toFixed(1)}%)</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${SENT_COLORS[sent]}"></div></div>
+          </div>
+        `;
+      }).join("");
+
+      const catCounts = {};
+      items.forEach(i => { catCounts[i.category] = (catCounts[i.category] || 0) + 1; });
+      const sortedCats = Object.entries(catCounts).sort((a, b) => b[1] - a[1]);
+      const maxCat = sortedCats[0][1];
+      document.getElementById("chart-categories").innerHTML = sortedCats.map(([cat, cnt]) => `
+        <div class="bar-row">
+          <div class="bar-head">
+            <button type="button" class="bar-btn jump-cat" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)}</button>
+            <span class="subtitle">${cnt} ${lang === "en" ? "items" : "item"}</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill" style="width:${(cnt/maxCat)*100}%; background:var(--accent)"></div></div>
+        </div>
+      `).join("");
+
+      document.getElementById("branch-list").innerHTML = DATA.branches.map(b => `
+        <div class="meta-pill">
+          <div style="display:flex; justify-content:space-between; gap:8px; margin-bottom:4px;">
+            <strong>${escapeHtml(lang === "en" ? b.location_en : b.location)}</strong>
+            <span class="badge ${b.risk.includes("Critical") ? "sev-Critical" : b.risk.includes("High") ? "sev-High" : "sev-Medium"}">${escapeHtml(b.risk)}</span>
+          </div>
+          <div class="subtitle">${escapeHtml(lang === "en" ? b.summary_en : b.summary)} <em>(${escapeHtml(lang === "en" ? b.coverage_en : b.coverage)})</em></div>
+        </div>
+      `).join("");
+
+      const days = [];
+      for (let d = 1; d <= 25; d++) {
+        const key = `2026-11-${String(d).padStart(2, "0")}`;
+        const dayItems = items.filter(i => i.day === key);
+        days.push({
+          key, label: `Nov ${d}`, count: dayItems.length,
+          likes: dayItems.reduce((s, i) => s + (i.likes || 0), 0),
+          crit: dayItems.filter(i => i.severity === "Critical").length,
+          high: dayItems.filter(i => i.severity === "High").length,
+          med: dayItems.filter(i => i.severity === "Medium").length,
+          low: dayItems.filter(i => i.severity === "Low").length
+        });
+      }
+      const w = 860, h = 210, padL = 36, padB = 28, padT = 18, padR = 16;
+      const plotW = w - padL - padR, plotH = h - padT - padB;
+      const maxCount = Math.max(...days.map(d => d.count), 1);
+      const step = plotW / days.length, barW = step * 0.65;
+
+      let svgBars = "";
+      days.forEach((d, i) => {
+        const x = padL + i * step + (step - barW) / 2;
+        const barH = (d.count / maxCount) * plotH;
+        const y = padT + plotH - barH;
+        const fill = d.crit > 0 ? "var(--critical)" : d.high > 0 ? "var(--high)" : d.count > 0 ? "var(--accent)" : "var(--border)";
+        const info = lang === "en"
+          ? `${d.label}: ${d.count} items (${d.crit} Critical, ${d.high} High, ${d.med} Medium, ${d.low} Low) | ${d.likes.toLocaleString("en-US")} reported likes`
+          : `${d.label}: ${d.count} item (${d.crit} Critical, ${d.high} High, ${d.med} Medium, ${d.low} Low) | ${d.likes.toLocaleString("en-US")} likes terlapor`;
+        svgBars += `
+          <g class="tl-day" tabindex="0" data-info="${escapeHtml(info)}">
+            <rect x="${x.toFixed(1)}" y="${Math.min(y, padT + plotH - 2).toFixed(1)}" width="${barW.toFixed(1)}" height="${Math.max(barH, 2).toFixed(1)}" rx="3" fill="${fill}" />
+            ${d.count > 0 ? `<text x="${(x + barW/2).toFixed(1)}" y="${(y - 5).toFixed(1)}" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor">${d.count}</text>` : ""}
+            ${(i % 2 === 0 || i === 24) ? `<text x="${(x + barW/2).toFixed(1)}" y="${h - 8}" text-anchor="middle" font-size="10" fill="var(--muted)">${d.label.replace("Nov ", "")}</text>` : ""}
+          </g>
+        `;
+      });
+      document.getElementById("timeline-chart").innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" width="100%" role="img" aria-label="Crisis escalation daily timeline Nov 1 to Nov 25, 2026">
+          <line x1="${padL}" y1="${padT + plotH}" x2="${w - padR}" y2="${padT + plotH}" stroke="var(--border)" />
+          ${svgBars}
+        </svg>
+      `;
+      const tip = document.getElementById("timeline-tooltip");
+      document.querySelectorAll(".tl-day").forEach(g => {
+        const show = () => { tip.textContent = g.dataset.info; };
+        g.addEventListener("mouseenter", show);
+        g.addEventListener("focus", show);
+      });
+
+      document.querySelectorAll(".jump-sev").forEach(b => b.addEventListener("click", () => {
+        setSeverityFilter(b.dataset.sev);
+        activateTab(document.getElementById("tab-explorer"), true);
+      }));
+      document.querySelectorAll(".jump-sent").forEach(b => b.addEventListener("click", () => {
+        state.sentiment = b.dataset.sent;
+        document.getElementById("filter-sentiment").value = state.sentiment;
+        renderExplorer();
+        activateTab(document.getElementById("tab-explorer"), true);
+      }));
+      document.querySelectorAll(".jump-cat").forEach(b => b.addEventListener("click", () => {
+        state.query = b.dataset.cat.split(" ")[0];
+        document.getElementById("q").value = state.query;
+        renderExplorer();
+        activateTab(document.getElementById("tab-explorer"), true);
+      }));
+    }
+
+    function getFilteredItems() {
+      const q = state.query.trim().toLowerCase();
+      let list = DATA.items.filter(item => {
+        if (state.severity !== "ALL" && item.severity !== state.severity) return false;
+        if (state.theme !== "ALL" && item.theme !== state.theme) return false;
+        if (state.sentiment !== "ALL" && item.sentiment !== state.sentiment) return false;
+        if (q) {
+          const hay = `${item.id} ${item.handle} ${item.venue} ${item.category} ${item.theme} ${item.summary} ${item.summary_en} ${item.verbatim} ${item.verbatim_en}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      list.sort((a, b) => {
+        if (state.sort === "severity") {
+          const diff = SEV_ORDER[a.severity] - SEV_ORDER[b.severity];
+          return diff !== 0 ? diff : (b.likes || 0) - (a.likes || 0);
+        }
+        if (state.sort === "date-desc") return b.date.localeCompare(a.date);
+        if (state.sort === "likes-desc") return (b.likes || 0) - (a.likes || 0);
+        if (state.sort === "views-desc") return (b.views || 0) - (a.views || 0);
+        return 0;
+      });
+      return list;
+    }
+
+    function renderExplorer() {
+      const t = I18N[lang];
+      const list = getFilteredItems();
+      document.getElementById("result-count").textContent = t.showingCount(list.length, DATA.items.length);
+      const tbody = document.getElementById("explorer-tbody");
+      if (!list.length) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--muted);">${escapeHtml(t.noMatch)}</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = list.map(item => `
+        <tr>
+          <td><strong>${escapeHtml(item.id)}</strong><br><span class="subtitle">${escapeHtml(lang === "en" ? item.recordType_en : item.recordType)}</span></td>
+          <td><span class="badge sev-${item.severity}">${item.severity}</span></td>
+          <td style="white-space:nowrap;">${escapeHtml(item.date)}</td>
+          <td><strong>${escapeHtml(item.handle)}</strong><br><span class="subtitle">${escapeHtml(item.sentiment)}</span></td>
+          <td>${escapeHtml(item.venue)}</td>
+          <td>${escapeHtml(item.theme)}</td>
+          <td class="num">${item.likes !== null ? item.likes.toLocaleString("en-US") : "—"}</td>
+          <td class="num">${item.views !== null ? item.views.toLocaleString("en-US") : "—"}</td>
+          <td>
+            <div style="margin-bottom:6px;">${escapeHtml(lang === "en" ? item.summary_en : item.summary)}</div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-sm open-detail" data-id="${escapeHtml(item.id)}">${escapeHtml(t.viewVerbatim)}</button>
+              <button type="button" class="btn btn-sm escalate-item" data-id="${escapeHtml(item.id)}">${escapeHtml(t.addBoardBtn)}</button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+
+      tbody.querySelectorAll(".open-detail").forEach(btn => btn.addEventListener("click", () => openDetailModal(btn.dataset.id)));
+      tbody.querySelectorAll(".escalate-item").forEach(btn => btn.addEventListener("click", () => escalateIncidentToBoard(btn.dataset.id)));
+    }
+
+    function escalateIncidentToBoard(itemId) {
+      const item = DATA.items.find(i => i.id === itemId);
+      if (!item) return;
+      const customId = `INC-${item.id}`;
+      if (!boardTasks.some(t => t.id === customId)) {
+        const prio = item.severity === "Critical" ? "P0" : item.severity === "High" ? "P1" : "P2";
+        boardTasks.unshift({
+          id: customId,
+          title: `Tindak lanjuti ${item.handle} (${item.venue}): ${item.summary}`,
+          title_en: `Follow up ${item.handle} (${item.venue}): ${item.summary_en}`,
+          fn: item.theme.includes("T4") || item.theme.includes("T5") ? "MarComm & PR" : item.theme.includes("T2") ? "IT & Online Speaking" : "Operasional Cabang",
+          fn_en: item.theme.includes("T4") || item.theme.includes("T5") ? "MarComm & PR" : item.theme.includes("T2") ? "IT & Online Speaking" : "Branch Operations",
+          prio,
+          horizon: prio === "P0" ? "0–24 Jam" : "Hari 2–7",
+          horizon_en: prio === "P0" ? "0–24 Hours" : "Days 2–7",
+          impact: prio === "P0" ? 5 : prio === "P1" ? 4 : 3,
+          urgency: prio === "P0" ? 5 : 4,
+          effort: 2,
+          zone: "action",
+          done: false,
+          evidence: item.handle
+        });
+        saveBoardTasks();
+        renderBoard();
+      }
+      activateTab(document.getElementById("tab-board"), true);
+    }
+
+    function setSeverityFilter(sev) {
+      state.severity = sev;
+      document.querySelectorAll(".pill-btn").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.sev === sev)));
+      renderExplorer();
+    }
+
+    document.querySelectorAll(".pill-btn").forEach(btn => btn.addEventListener("click", () => setSeverityFilter(btn.dataset.sev)));
+    document.getElementById("q").addEventListener("input", e => { state.query = e.target.value; renderExplorer(); });
+    document.getElementById("filter-theme").addEventListener("change", e => { state.theme = e.target.value; renderExplorer(); });
+    document.getElementById("filter-sentiment").addEventListener("change", e => { state.sentiment = e.target.value; renderExplorer(); });
+    document.getElementById("sort-by").addEventListener("change", e => { state.sort = e.target.value; renderExplorer(); });
+    document.getElementById("reset-filters").addEventListener("click", () => {
+      state = { severity: "ALL", theme: "ALL", sentiment: "ALL", query: "", sort: "severity" };
+      document.getElementById("q").value = "";
+      document.getElementById("filter-theme").value = "ALL";
+      document.getElementById("filter-sentiment").value = "ALL";
+      document.getElementById("sort-by").value = "severity";
+      setSeverityFilter("ALL");
+    });
+
+    // Methodology Dialog + Detail Dialog with closedby fallback
+    function wireDialogLightDismiss(dlg) {
+      if (!("closedBy" in HTMLDialogElement.prototype)) {
+        const outside = (e) => {
+          const r = dlg.getBoundingClientRect();
+          return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+        };
+        let pressedOutside = false;
+        dlg.addEventListener("pointerdown", e => { pressedOutside = outside(e); });
+        dlg.addEventListener("pointerup", e => { if (pressedOutside && outside(e)) dlg.close(); });
+      }
+    }
+
+    const dialog = document.getElementById("detail-dialog");
+    const methDialog = document.getElementById("methodology-dialog");
+    wireDialogLightDismiss(dialog);
+    wireDialogLightDismiss(methDialog);
+
+    document.getElementById("open-methodology").addEventListener("click", () => methDialog.showModal());
+
+    function renderDialogVerbatim() {
+      if (!currentDialogItem) return;
+      const t = I18N[lang];
+      document.getElementById("verbatim-lang-label").textContent = showTranslatedVerbatim ? t.verbatimTransLbl : t.verbatimOrigLbl;
+      document.getElementById("toggle-translate").textContent = showTranslatedVerbatim ? t.btnToOrig : t.btnToEn;
+      document.getElementById("dialog-verbatim").textContent = showTranslatedVerbatim ? currentDialogItem.verbatim_en : currentDialogItem.verbatim;
+    }
+
+    document.getElementById("toggle-translate").addEventListener("click", () => {
+      showTranslatedVerbatim = !showTranslatedVerbatim;
+      renderDialogVerbatim();
+    });
+
+    function openDetailModal(id) {
+      const item = DATA.items.find(i => i.id === id);
+      if (!item) return;
+      currentDialogItem = item;
+      showTranslatedVerbatim = false; // Always preserve original ID content first!
+      const isEn = lang === "en";
+      document.getElementById("dialog-badges").innerHTML = `
+        <span class="badge sev-${item.severity}">${item.severity} (${item.priority})</span>
+        <span class="badge" style="background:var(--surface-alt); color:var(--text);">${escapeHtml(item.sentiment)}</span>
+        <span class="badge" style="background:var(--accent-soft); color:var(--accent);">${escapeHtml(isEn ? item.recordType_en : item.recordType)}</span>
+      `;
+      document.getElementById("dialog-title").textContent = `${item.id} — ${item.handle}`;
+      document.getElementById("dialog-meta").innerHTML = `
+        <div class="meta-pill"><strong>${isEn ? "Date:" : "Tanggal:"}</strong><br>${escapeHtml(item.date)}</div>
+        <div class="meta-pill"><strong>${isEn ? "Venue/Branch:" : "Lokasi/Cabang:"}</strong><br>${escapeHtml(item.venue)}</div>
+        <div class="meta-pill"><strong>Likes / Replies:</strong><br>${item.likes ?? "—"} / ${item.replies ?? "—"}</div>
+        <div class="meta-pill"><strong>Views / Reposts:</strong><br>${item.views ? item.views.toLocaleString("en-US") : "—"} / ${item.reposts ?? "—"}</div>
+      `;
+      document.getElementById("dialog-summary").textContent = `${item.theme} — ${isEn ? item.summary_en : item.summary}`;
+      document.getElementById("dialog-url").href = item.url;
+      renderDialogVerbatim();
+      dialog.showModal();
+    }
+
+    document.getElementById("dialog-escalate").addEventListener("click", () => {
+      if (!currentDialogItem) return;
+      const id = currentDialogItem.id;
+      dialog.close();
+      escalateIncidentToBoard(id);
+    });
+
+    function renderThemes() {
+      const t = I18N[lang];
+      const grid = document.getElementById("themes-grid");
+      grid.innerHTML = DATA.themes.map(th => {
+        const subset = DATA.items.filter(i => i.theme === th.name);
+        const likes = subset.reduce((s, i) => s + (i.likes || 0), 0);
+        const views = subset.reduce((s, i) => s + (i.views || 0), 0);
+        return `
+          <article class="card">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+              <h3>${escapeHtml(lang === "en" ? th.name_en : th.name)}</h3>
+              <span class="badge" style="background:var(--accent-soft); color:var(--accent);">${subset.length} ${lang === "en" ? "items" : "item"}</span>
+            </div>
+            <p class="card-sub">${likes.toLocaleString("en-US")} ${lang === "en" ? "reported likes" : "likes terlapor"}${views ? ` · ${(views/1000).toFixed(1)}K views` : ""}</p>
+            <p style="margin:0 0 10px; font-size:0.9rem;">${escapeHtml(lang === "en" ? th.description_en : th.description)}</p>
+            <div class="subtitle" style="font-weight:600;">${escapeHtml(t.verbatimQuoteNote)}</div>
+            <blockquote class="verbatim-box" style="font-size:0.84rem;">${escapeHtml(th.quote)}</blockquote>
+            <p class="subtitle" style="margin:0 0 12px;"><strong>${escapeHtml(t.keyAccounts)}</strong> ${escapeHtml(th.actors)}</p>
+            <button type="button" class="btn jump-theme" data-theme="${escapeHtml(th.name)}">${escapeHtml(t.seeItemsInExp(subset.length))}</button>
+          </article>
+        `;
+      }).join("");
+
+      grid.querySelectorAll(".jump-theme").forEach(btn => {
+        btn.addEventListener("click", () => {
+          state.theme = btn.dataset.theme;
+          document.getElementById("filter-theme").value = state.theme;
+          renderExplorer();
+          activateTab(document.getElementById("tab-explorer"), true);
+        });
+      });
+    }
+
+    function renderRCA() {
+      const en = lang === "en";
+      document.getElementById("rca-container").innerHTML = `
+        <div class="grid-2">
+          <article class="card">
+            <h2>${en ? "Pareto of Direct Complaint Drivers (n = 31)" : "Pareto Faktor Akar Masalah (31 Keluhan Langsung)"}</h2>
+            <p class="card-sub">${en ? "T1 (Scoring/EOR) + T2 (Online Speaking Tech) drive 67.7% of direct complaint items and 98.0% of complaint likes." : "T1 (Scoring/EOR) + T2 (Online Speaking Tech) menyumbang 67,7% item keluhan langsung dan 98,0% likes keluhan."}</p>
+            <div class="bar-list">
+              <div class="bar-row"><div class="bar-head"><span><strong>T1: Scoring Opacity, Bias &amp; EOR</strong></span><span class="subtitle">14 (45.2%) · 3,646 likes</span></div><div class="bar-track"><div class="bar-fill" style="width:100%; background:var(--critical)"></div></div></div>
+              <div class="bar-row"><div class="bar-head"><span><strong>T2: Online Speaking &amp; Retakes</strong></span><span class="subtitle">7 (22.6%) · 111 likes</span></div><div class="bar-track"><div class="bar-fill" style="width:50%; background:var(--high)"></div></div></div>
+              <div class="bar-row"><div class="bar-head"><span><strong>T3: Hardware, Acoustics &amp; Staff</strong></span><span class="subtitle">6 (19.4%) · 68 likes</span></div><div class="bar-track"><div class="bar-fill" style="width:42.8%; background:var(--high)"></div></div></div>
+              <div class="bar-row"><div class="bar-head"><span><strong>T4: Result Delays &amp; TRF Friction</strong></span><span class="subtitle">4 (12.9%) · 7 likes</span></div><div class="bar-track"><div class="bar-fill" style="width:28.6%; background:var(--medium)"></div></div></div>
+            </div>
+          </article>
+          <article class="card">
+            <h2>${en ? "Fishbone Synthesis (6M Root Causes)" : "Sintesis Fishbone (6M Root Causes)"}</h2>
+            <p class="card-sub">${en ? "Observed and inferred contributing factors across operational functions." : "Faktor kontributor teramati dan terinferensi lintas fungsi organisasi."}</p>
+            <div class="bar-list">
+              <div class="meta-pill"><strong>People:</strong> ${en ? "Variation in online examiner audio clarity/accent & defensive proctor responses (@vanilllaaaes, @odilapaskaa)." : "Variasi kejelasan audio/aksen penguji & respons defensif pengawas (@vanilllaaaes, @odilapaskaa)."}</div>
+              <div class="meta-pill"><strong>Process:</strong> ${en ? "All-skills retake on recording failure (@uswa_aftah), Nov 14 delayed results (@ydharma), costly EOR without initial score breakdown." : "Retake all skills saat rekaman gagal (@uswa_aftah), hasil 14 Nov tertunda (@ydharma), EOR mahal tanpa feedback awal."}</div>
+              <div class="meta-pill"><strong>Technology:</strong> ${en ? "Zoom lag/disconnects, unrecorded speaking scores, locked dark screens, leaking headsets." : "Zoom lag/putus koneksi, gagal rekap skor, layar gelap terkunci, headset bocor."}</div>
+              <div class="meta-pill"><strong>Place &amp; Policy:</strong> ${en ? "Center quality gap (Jogja/Bandung/Salemba/Unimed vs. Senopati/Kuningan/PI/UI); uncommunicated headset rule & no Threads presence." : "Kesenjangan mutu Jogja/Bandung/Salemba/Unimed vs. Senopati/Kuningan/PI/UI; wajib headset tak tersosialisasi & absen respons Threads."}</div>
+            </div>
+          </article>
+        </div>
+
+        <article class="card">
+          <h2>${en ? "Multi-Track 5 Whys Root-Cause Analysis" : "Multi-Track 5 Whys Root-Cause Analysis"}</h2>
+          <p class="card-sub">${en ? "Expand each track to inspect the causal chain from symptoms to systemic root cause." : "Klik tiap jalur untuk melihat rantai kausalitas dari gejala hingga akar masalah sistemik."}</p>
+          <div class="accordion-stack">
+            <details name="five-whys" open>
+              <summary>${en ? "Track 1: Educator Boycott & Scoring Integrity Crisis" : "Track 1: Boikot Pengajar & Krisis Kepercayaan Penilaian (Scoring Integrity)"}</summary>
+              <ol class="why-list">
+                <li><strong>Why 1:</strong> ${en ? "Candidates/educators cite abnormal W/S drops (5.5–6.5 vs R/L 7.5–9) and paid EOR reversals (@ddokiii Rp2M: 6.0→6.5; @uusmayantivivi ~Rp1.8M: +1.0 S / +0.5 W)." : "Peserta/pengajar menuding penilaian BC anomali karena kontras skor R/L (7,5–9) vs. W/S (5,5–6,5) serta EOR berbayar yang menaikkan skor (@ddokiii Rp2 jt: 6,0 → 6,5; @uusmayantivivi ~Rp1,8 jt: +1,0 S / +0,5 W)."}</li>
+                <li><strong>Why 2:</strong> ${en ? "Low scores feel like a 'black box' without automatic criterion feedback unless paying for EOR." : "Skor rendah dipersepsikan sebagai 'black box' karena peserta tidak menerima umpan balik komponen secara otomatis tanpa membayar EOR."}</li>
+                <li><strong>Why 3:</strong> ${en ? "Sharp gaps across examiners/providers in close succession (@mallorymistyday, @xabrown) reinforce bias perception." : "Kontras skor antar-tes/penguji dalam jarak waktu singkat (@mallorymistyday, @xabrown) memperkuat dugaan bias."}</li>
+                <li><strong>Why 4:</strong> ${en ? "Rising complaints over the past 3–4 months in Jakarta/Jogja/Bandung went unaddressed by open calibration audits." : "Lonjakan keluhan 3–4 bulan terakhir di Jakarta/Jogja/Bandung tidak dijawab dengan audit kalibrasi terbuka."}</li>
+                <li><strong>Why 5 (Root Cause):</strong> <em>${en ? "Lack of post-test transparency and absence of QA dialogue with IELTS educators turned individual grievances into a collective boycott." : "Minimnya transparansi pasca-tes dan absennya komunikasi QA ke komunitas pengajar membuat insiden individual berubah menjadi narasi boikot sistemik."}</em></li>
+              </ol>
+            </details>
+            <details name="five-whys">
+              <summary>${en ? "Track 2: Online Speaking Fragility & Forced Retakes" : "Track 2: Kerapuhan Online Speaking & Kebijakan Forced Retake"}</summary>
+              <ol class="why-list">
+                <li><strong>Why 1:</strong> ${en ? "Zoom Speaking suffered lag/drops mid-test (@anggilani 70%, @ayuabece, @safirayusinta ~2h) or failed to record (@dreamingdreamy_, @uswa_aftah)." : "Sesi Speaking Zoom lag/putus di tengah ujian (@anggilani 70%, @ayuabece, @safirayusinta ~2 jam) atau rekaman gagal tersimpan (@dreamingdreamy_, @uswa_aftah)."}</li>
+                <li><strong>Why 2:</strong> ${en ? "Sudden stops, examiner swaps, and all-skills retakes disrupt candidate focus and lower performance." : "Penghentian mendadak, ganti penguji, hingga pengulangan all skills merusak konsentrasi peserta."}</li>
+                <li><strong>Why 3:</strong> ${en ? "Heavy reliance on video-call Speaking across centers without uniform network redundancy." : "Ketergantungan pada video-call Speaking tanpa redundansi jaringan yang seragam di semua cabang."}</li>
+                <li><strong>Why 4:</strong> ${en ? "Some proctors responded defensively—ignoring lag (@ddokiii) or blaming candidate signal first (@odilapaskaa)." : "Sebagian pengawas bersikap defensif—membiarkan lag (@ddokiii) atau menyalahkan jaringan peserta sebelum mengecek koneksi pusat (@odilapaskaa)."}</li>
+                <li><strong>Why 5 (Root Cause):</strong> <em>${en ? "No fair Single-Skill Technical Remediation SOP for center-side failures and weak empathetic escalation training for proctors." : "Belum adanya SOP single-skill remediation untuk kegagalan teknis pusat tes serta pelatihan eskalasi empatik bagi pengawas."}</em></li>
+              </ol>
+            </details>
+            <details name="five-whys">
+              <summary>${en ? "Track 3: Center Hardware & Pre-Test Briefing Gaps" : "Track 3: Infrastruktur Cabang & Kesenjangan Briefing Pra-Tes"}</summary>
+              <ol class="why-list">
+                <li><strong>Why 1:</strong> ${en ? "Candidates faced locked dark screens (@vanilllaaaes), leaking headsets (@nadyameriza), low audio, and unpartitioned rooms (@impiecka)." : "Peserta terganggu layar gelap terkunci (@vanilllaaaes), headset bocor (@nadyameriza), volume kecil, dan ruang tanpa sekat (@impiecka)."}</li>
+                <li><strong>Why 2:</strong> ${en ? "Mandatory headset rule for online Speaking caught test-takers off guard without prior notice (@dawnworldsz)." : "Aturan wajib headset Speaking online tidak tersosialisasi sebelum hari H (@dawnworldsz)."}</li>
+                <li><strong>Why 3:</strong> ${en ? "Uneven center standards (Jogja/Bandung/Salemba/Unimed vs. Office 8 Senopati, Cyber 2 Kuningan, Pondok Indah, UI)." : "Standar antar-cabang timpang (Jogja/Bandung/Salemba/Unimed vs. Office 8 Senopati, Cyber 2 Kuningan, Pondok Indah, UI)."}</li>
+                <li><strong>Why 4:</strong> ${en ? "On-site staff did not resolve minor hardware issues constructively on the spot." : "Staf lapangan kurang sigap menyelesaikan kendala teknis ringan di tempat."}</li>
+                <li><strong>Why 5 (Root Cause):</strong> <em>${en ? "Weak pre-flight hardware/acoustics QA inspections across branches and partners after full CBT transition (June 21, 2026)." : "Lemahnya pre-flight QA audit perangkat keras/akustik lintas cabang pasca transisi penuh CBT sejak 21 Juni 2026."}</em></li>
+              </ol>
+            </details>
+            <details name="five-whys">
+              <summary>${en ? "Track 4: Result Delays, TRF Friction & Public Comms Vacuum" : "Track 4: Keterlambatan Hasil, Verifikasi TRF & Kekosongan Kanal"}</summary>
+              <ol class="why-list">
+                <li><strong>Why 1:</strong> ${en ? "Booked candidates (@thriveward, @fudreee, @phdwith.er, @going_to974) panicked within 48h of viral threads." : "Pendaftar baru (@thriveward, @fudreee, @phdwith.er, @going_to974) panik dalam 48 jam setelah utas viral meluas."}</li>
+                <li><strong>Why 2:</strong> ${en ? "Pending Nov 14 results (@ydharma), H+1 result questions (@avilaasidore), and scholarship verification status (@cassandra_renata) lacked official answers." : "Kasus hasil 14 Nov belum keluar (@ydharma), pertanyaan H+1 (@avilaasidore), dan status beasiswa has not been verified yet (@cassandra_renata) tidak terjawab resmi."}</li>
+                <li><strong>Why 3:</strong> ${en ? "British Council Indonesia had no active official presence or moderation response across Threads discussions." : "Tidak ada kehadiran dan respons resmi British Council Indonesia di seluruh diskusi Threads."}</li>
+                <li><strong>Why 4:</strong> ${en ? "One-sided Threads narrative enabled rapid competitor capture by IDP partners (@englishstudio)." : "Narasi satu arah di Threads langsung dimanfaatkan mitra kompetitor IDP (@englishstudio)."}</li>
+                <li><strong>Why 5 (Root Cause):</strong> <em>${en ? "Social listening and Threads crisis-response readiness gaps left an unmoderated narrative vacuum." : "Kesenjangan social listening dan protokol respons krisis di Threads meninggalkan ruang hampa narasi resmi."}</em></li>
+              </ol>
+            </details>
+          </div>
+        </article>
+      `;
+    }
+
+    // Board functions
+    function buildTaskCard(task, indexInZone, totalInZone) {
+      const t = I18N[lang];
+      const en = lang === "en";
+      const score = calcPriorityScore(task);
+      const isAction = task.zone === "action";
+      const card = document.createElement("article");
+      card.className = `task-card${task.done ? " is-done" : ""}`;
+      card.dataset.taskId = task.id;
+      card.draggable = true;
+
+      card.innerHTML = `
+        <button type="button" class="drag-handle" aria-label="Drag ${escapeHtml(task.id)}">⋮⋮</button>
+        <div>
+          <div class="task-top">
+            <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+              <span class="badge prio-${task.prio}">${task.prio}</span>
+              <span class="score-chip">${en ? "Score" : "Skor"}: ${score}</span>
+              <span class="badge" style="background:var(--surface); border:1px solid var(--border); color:var(--muted);">${escapeHtml(en ? (task.fn_en || task.fn) : task.fn)}</span>
+              <span class="subtitle">${escapeHtml(en ? (task.horizon_en || task.horizon) : task.horizon)}</span>
+            </div>
+            ${isAction ? `<label class="subtitle" style="display:flex; align-items:center; gap:5px;"><input type="checkbox" class="toggle-done" ${task.done ? "checked" : ""}> ${escapeHtml(t.doneLabel)}</label>` : ""}
+          </div>
+          <p class="task-title">${escapeHtml(task.id)} — ${escapeHtml(en ? (task.title_en || task.title) : task.title)}</p>
+          <p class="subtitle">${escapeHtml(t.evidenceLbl)} ${escapeHtml(task.evidence || "Manual")}</p>
+          <div class="task-controls">
+            <label class="subtitle">Imp: <select class="mini-select metric-sel" data-field="impact">${[1,2,3,4,5].map(n => `<option value="${n}" ${task.impact === n ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+            <label class="subtitle">Urg: <select class="mini-select metric-sel" data-field="urgency">${[1,2,3,4,5].map(n => `<option value="${n}" ${task.urgency === n ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+            <label class="subtitle">Eff: <select class="mini-select metric-sel" data-field="effort">${[1,2,3,4,5].map(n => `<option value="${n}" ${task.effort === n ? "selected" : ""}>${n}</option>`).join("")}</select></label>
+            <button type="button" class="btn btn-sm bump-prio" data-dir="-1" ${task.prio === "P0" ? "disabled" : ""}>P↑</button>
+            <button type="button" class="btn btn-sm bump-prio" data-dir="1" ${task.prio === "P2" ? "disabled" : ""}>P↓</button>
+            <button type="button" class="btn btn-sm move-order" data-dir="-1" ${indexInZone === 0 ? "disabled" : ""}>↑</button>
+            <button type="button" class="btn btn-sm move-order" data-dir="1" ${indexInZone === totalInZone - 1 ? "disabled" : ""}>↓</button>
+            <button type="button" class="btn btn-sm ${isAction ? "" : "btn-primary"} move-zone">${escapeHtml(isAction ? t.toBacklog : t.toAction)}</button>
+          </div>
+        </div>
+      `;
+
+      card.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", task.id);
+        e.dataTransfer.effectAllowed = "move";
+        card.classList.add("is-dragging");
+        document.documentElement.classList.add("dragging-active");
+      });
+      card.addEventListener("dragend", () => {
+        card.classList.remove("is-dragging");
+        document.documentElement.classList.remove("dragging-active");
+        document.querySelectorAll(".drop-list").forEach(z => z.classList.remove("drop-target-hover"));
+      });
+
+      card.querySelectorAll(".metric-sel").forEach(sel => sel.addEventListener("change", () => {
+        task[sel.dataset.field] = Number(sel.value);
+        saveBoardTasks();
+        renderBoard();
+      }));
+      card.querySelectorAll(".bump-prio").forEach(btn => btn.addEventListener("click", () => {
+        const order = ["P0", "P1", "P2"];
+        task.prio = order[Math.min(2, Math.max(0, order.indexOf(task.prio) + Number(btn.dataset.dir)))];
+        saveBoardTasks();
+        renderBoard();
+      }));
+      card.querySelectorAll(".move-order").forEach(btn => btn.addEventListener("click", () => moveTaskWithinZone(task.id, Number(btn.dataset.dir))));
+      card.querySelector(".move-zone").addEventListener("click", () => {
+        task.zone = isAction ? "backlog" : "action";
+        saveBoardTasks();
+        renderBoard();
+      });
+      const doneCb = card.querySelector(".toggle-done");
+      if (doneCb) doneCb.addEventListener("change", () => { task.done = doneCb.checked; saveBoardTasks(); renderBoard(); });
+      return card;
+    }
+
+    function moveTaskWithinZone(taskId, delta) {
+      const task = boardTasks.find(t => t.id === taskId);
+      if (!task) return;
+      const zoneIds = boardTasks.filter(t => t.zone === task.zone).map(t => t.id);
+      const pos = zoneIds.indexOf(taskId);
+      const targetPos = pos + delta;
+      if (targetPos < 0 || targetPos >= zoneIds.length) return;
+      const swapId = zoneIds[targetPos];
+      const idxA = boardTasks.findIndex(t => t.id === taskId);
+      const idxB = boardTasks.findIndex(t => t.id === swapId);
+      [boardTasks[idxA], boardTasks[idxB]] = [boardTasks[idxB], boardTasks[idxA]];
+      saveBoardTasks();
+      renderBoard();
+    }
+
+    function placeDraggedTask(taskId, targetZone, clientY, container) {
+      const idx = boardTasks.findIndex(t => t.id === taskId);
+      if (idx === -1) return;
+      const [task] = boardTasks.splice(idx, 1);
+      task.zone = targetZone;
+      const cards = Array.from(container.querySelectorAll(".task-card:not(.is-dragging)"));
+      let insertBeforeId = null;
+      for (const c of cards) {
+        const rect = c.getBoundingClientRect();
+        if (clientY < rect.top + rect.height / 2) { insertBeforeId = c.dataset.taskId; break; }
+      }
+      if (insertBeforeId) boardTasks.splice(boardTasks.findIndex(t => t.id === insertBeforeId), 0, task);
+      else boardTasks.push(task);
+      saveBoardTasks();
+      renderBoard();
+    }
+
+    ["backlog-list", "action-list"].forEach(listId => {
+      const listEl = document.getElementById(listId);
+      listEl.addEventListener("dragover", (e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; listEl.classList.add("drop-target-hover"); });
+      listEl.addEventListener("dragleave", (e) => { if (!listEl.contains(e.relatedTarget)) listEl.classList.remove("drop-target-hover"); });
+      listEl.addEventListener("drop", (e) => {
+        e.preventDefault();
+        listEl.classList.remove("drop-target-hover");
+        const taskId = e.dataTransfer.getData("text/plain");
+        if (taskId) placeDraggedTask(taskId, listEl.dataset.zone, e.clientY, listEl);
+      });
+    });
+
+    function renderBoard() {
+      const t = I18N[lang];
+      const q = boardFilter.query.trim().toLowerCase();
+      const backlogFiltered = boardTasks.filter(item => {
+        if (item.zone !== "backlog") return false;
+        if (boardFilter.fn !== "ALL" && item.fn !== boardFilter.fn) return false;
+        if (boardFilter.prio !== "ALL" && item.prio !== boardFilter.prio) return false;
+        if (q && !`${item.id} ${item.title} ${item.title_en || ""} ${item.fn} ${item.evidence}`.toLowerCase().includes(q)) return false;
+        return true;
+      });
+      const actionItems = boardTasks.filter(item => item.zone === "action");
+      const backlogEl = document.getElementById("backlog-list");
+      const actionEl = document.getElementById("action-list");
+      backlogEl.replaceChildren();
+      actionEl.replaceChildren();
+
+      if (!backlogFiltered.length) backlogEl.innerHTML = `<p class="subtitle" style="text-align:center; padding:24px;">${escapeHtml(t.emptyBacklog)}</p>`;
+      else backlogFiltered.forEach((item, i) => backlogEl.appendChild(buildTaskCard(item, i, backlogFiltered.length)));
+
+      if (!actionItems.length) actionEl.innerHTML = `<p class="subtitle" style="text-align:center; padding:24px;">${escapeHtml(t.emptyAction)}</p>`;
+      else actionItems.forEach((item, i) => actionEl.appendChild(buildTaskCard(item, i, actionItems.length)));
+
+      document.getElementById("backlog-count").textContent = t.backlogCount(backlogFiltered.length, boardTasks.filter(x => x.zone === "backlog").length);
+      document.getElementById("action-count").textContent = t.actionCount(actionItems.length, actionItems.filter(x => x.prio === "P0").length, actionItems.filter(x => x.done).length);
+    }
+
+    document.getElementById("board-q").addEventListener("input", e => { boardFilter.query = e.target.value; renderBoard(); });
+    document.getElementById("board-fn").addEventListener("change", e => { boardFilter.fn = e.target.value; renderBoard(); });
+    document.getElementById("board-prio").addEventListener("change", e => { boardFilter.prio = e.target.value; renderBoard(); });
+
+    document.getElementById("sort-by-score").addEventListener("click", () => {
+      const prioRank = { P0: 0, P1: 1, P2: 2 };
+      boardTasks.sort((a, b) => {
+        if (a.zone !== b.zone) return a.zone === "action" ? -1 : 1;
+        const scoreDiff = calcPriorityScore(b) - calcPriorityScore(a);
+        return scoreDiff !== 0 ? scoreDiff : prioRank[a.prio] - prioRank[b.prio];
+      });
+      saveBoardTasks();
+      renderBoard();
+    });
+
+    document.getElementById("add-task-btn").addEventListener("click", () => {
+      const inp = document.getElementById("new-task-title");
+      const title = inp.value.trim();
+      if (!title) return;
+      const fn = document.getElementById("new-task-fn").value;
+      const newId = `CUSTOM-${String(Date.now()).slice(-4)}`;
+      boardTasks.unshift({
+        id: newId, title, title_en: title, fn, fn_en: fn, prio: "P1", horizon: "Hari 2–7", horizon_en: "Days 2–7",
+        impact: 4, urgency: 4, effort: 2, zone: "backlog", done: false, evidence: lang === "en" ? "User added" : "Ditambahkan pengguna"
+      });
+      inp.value = "";
+      saveBoardTasks();
+      renderBoard();
+    });
+
+    document.getElementById("reset-board").addEventListener("click", () => {
+      boardTasks = structuredClone(DEFAULT_BOARD_TASKS);
+      boardFilter = { query: "", fn: "ALL", prio: "ALL" };
+      document.getElementById("board-q").value = "";
+      document.getElementById("board-fn").value = "ALL";
+      document.getElementById("board-prio").value = "ALL";
+      saveBoardTasks();
+      renderBoard();
+    });
+
+    function renderMarComm() {
+      const en = lang === "en";
+      document.getElementById("marcomm-container").innerHTML = `
+        <div class="grid-2">
+          <article class="card">
+            <h2>${en ? "Public Holding Statement (IG / Web / Threads — ID Copy)" : "Holding Statement Publik (IG / Web / Threads)"}</h2>
+            <p class="card-sub">${en ? "SCCT Rebuild + Bolster copy ready for Indonesian audiences." : "Strategi SCCT Rebuild + Bolster: akui masukan peserta, jelaskan perbaikan cabang, dan buka jalur prioritas TRF/hasil."}</p>
+            <pre class="template-box" id="tpl-holding">Komitmen Kami atas Pengalaman Tes IELTS Anda di Indonesia
+
+Dalam beberapa hari terakhir, kami menyimak dengan saksama seluruh masukan peserta dan pengajar terkait pengalaman tes IELTS di Indonesia, khususnya mengenai pelaksanaan Speaking daring, kenyamanan perangkat di beberapa lokasi, serta waktu rilis hasil.
+
+Kami memohon maaf atas ketidaknyamanan yang dialami sebagian peserta. Setiap masukan menjadi prioritas evaluasi kami bersama tim Quality Assurance dan pengelola pusat tes di Jakarta, Yogyakarta, Bandung, Surabaya, dan kota lainnya. Saat ini kami tengah menjalankan audit teknis jaringan dan perangkat ruang tes, serta memastikan:
+1. Kendala teknis dari sisi pusat tes ditangani langsung di tempat tanpa merugikan peserta.
+2. Hasil tes yang masih tertunda segera diselesaikan melalui jalur prioritas.
+3. Mekanisme Enquiry on Results (EOR) berjalan transparan dengan pengembalian biaya penuh apabila terjadi perubahan skor.
+
+Jika Anda mengalami kendala hasil tes, verifikasi TRF beasiswa, atau kendala hari H, silakan hubungi tim layanan prioritas kami melalui [Link/Email Resmi CS BC Indonesia] dengan menyertakan nomor referensi tes Anda.</pre>
+            <button type="button" class="btn btn-primary copy-tpl" data-target="tpl-holding">${en ? "Copy Holding Statement" : "Salin Holding Statement"}</button>
+          </article>
+
+          <article class="card">
+            <h2>${en ? "Proactive Candidate Message (Email / WA H-3 — ID Copy)" : "Pesan Proaktif Peserta Terdaftar (Email / WA H-3)"}</h2>
+            <p class="card-sub">${en ? "Pre-test reassurance for booked candidates (@thriveward, @fudreee, @phdwith.er)." : "Meredam kecemasan pendaftar baru (@thriveward, @fudreee, @phdwith.er) sebelum hari H."}</p>
+            <pre class="template-box" id="tpl-pretest">Persiapan Tes IELTS Anda di British Council Indonesia — Informasi Penting Hari H
+
+Halo [Nama Peserta], menjelang jadwal tes IELTS Anda pada [Tanggal] di [Lokasi Tes], berikut hal-hal yang perlu diketahui agar tes berjalan nyaman:
+- Format Speaking: Sesi Speaking dilaksanakan secara daring (video call) dengan penguji terakreditasi menggunakan headset yang telah disiapkan di ruang tes.
+- Hak Kenyamanan Teknis: Apabila layar terlalu gelap, suara headset kurang jelas, atau koneksi video terganggu saat ujian berlangsung, segera angkat tangan dan beri tahu pengawas agar dapat ditangani saat itu juga.
+- Rilis Hasil & Verifikasi Beasiswa: Hasil computer-based umumnya tersedia dalam 1–2 hari kalender dan dapat diverifikasi langsung oleh institusi/beasiswa melalui portal resmi IELTS. Jika melewati batas waktu atau butuh bantuan verifikasi TRF, hubungi [Kontak Prioritas].</pre>
+            <button type="button" class="btn btn-primary copy-tpl" data-target="tpl-pretest">${en ? "Copy Pre-Test Message" : "Salin Pesan Pre-Test H-3"}</button>
+          </article>
+        </div>
+
+        <article class="card">
+          <h2>${en ? "30-Day Audience & MarComm Tactical Matrix" : "Matriks Audiens & Taktik MarComm 30 Hari"}</h2>
+          <p class="card-sub">${en ? "Channel targeting and reputation recovery KPIs." : "Pemetaan pesan per segmen audiens serta KPI pemulihan reputasi."}</p>
+          <div class="table-wrap" style="box-shadow:none;">
+            <table>
+              <thead>
+                <tr>
+                  <th>${en ? "Phase" : "Fase"}</th>
+                  <th>${en ? "Target Segment" : "Segmen Target"}</th>
+                  <th>${en ? "Primary Tactics & Channels" : "Taktik & Kanal Utama"}</th>
+                  <th>${en ? "Success KPIs" : "KPI Keberhasilan"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>${en ? "Day 1 (0–24h)" : "Hari 1 (0–24 Jam)"}</strong></td>
+                  <td>${en ? "Registered Candidates & Delayed Result Cases" : "Peserta Terdaftar & Terdampak Hasil (14 Nov / TRF)"}</td>
+                  <td>${en ? "Publish Holding Statement (IG/Web); send H-3 WA/Email reassurance; open Priority Care Desk (<24h); launch Threads listening." : "Terbitkan Holding Statement di IG/Web; kirim WA/Email H-3 reassurance; buka Priority Care Desk (<24 jam); aktifkan monitoring Threads."}</td>
+                  <td>${en ? "100% H-14 candidates briefed; Nov 14 cohort resolved." : "100% pendaftar H-14 menerima briefing; kasus 14 Nov tertangani."}</td>
+                </tr>
+                <tr>
+                  <td><strong>${en ? "Days 2–7 (Stabilize)" : "Hari 2–7 (Stabilisasi)"}</strong></td>
+                  <td>${en ? "Threads Public & Vocal IELTS Educators" : "Publik Threads & Pengajar Vokal"}</td>
+                  <td>${en ? "Launch 'Behind the IELTS Standard' series; establish official Threads presence; 1-on-1 outreach to IELTS teachers/partners." : "Rilis seri edukasi Behind the IELTS Standard; aktivasi kehadiran resmi di Threads; 1-on-1 outreach ke guru/mitra IELTS."}</td>
+                  <td>${en ? "Negative sentiment <35%; Threads reply SLA <4h; 10+ educators engaged." : "Sentimen negatif turun <35%; SLA balas Threads <4 jam; 10+ guru dihubungi."}</td>
+                </tr>
+                <tr>
+                  <td><strong>${en ? "Days 8–30 (Recover)" : "Hari 8–30 (Pemulihan)"}</strong></td>
+                  <td>${en ? "Educator Community, Universities & Prospects" : "Komunitas Pengajar, Kampus & Calon Pendaftar"}</td>
+                  <td>${en ? "Host closed IELTS Educator QA Briefing; publish Facility Upgrade Update (Jogja, Bandung, Salemba) & spotlight praised venues." : "Gelar IELTS Educator QA Briefing tertutup; publikasikan Facility Upgrade Update (Jogja, Bandung, Salemba) & sorot venue unggulan."}</td>
+                  <td>${en ? "Negative sentiment <20%; Threads SLA <2h; booking retention recovered." : "Sentimen negatif <20%; SLA Threads <2 jam; retensi booking pulih."}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      `;
+
+      document.querySelectorAll(".copy-tpl").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          const text = document.getElementById(btn.dataset.target).textContent;
+          const orig = btn.textContent;
+          try { await navigator.clipboard.writeText(text); btn.textContent = lang === "en" ? "Copied!" : "Tersalin!"; }
+          catch { btn.textContent = lang === "en" ? "Copy manually" : "Salin manual"; }
+          setTimeout(() => { btn.textContent = orig; }, 1600);
+        });
+      });
+    }
+
+    document.getElementById("export-plan-csv").addEventListener("click", () => {
+      const actionItems = boardTasks.filter(t => t.zone === "action");
+      const headers = ["Order", "ID", "Priority", "PriorityScore", "Impact", "Urgency", "Effort", "Function", "Horizon", "Status", "Title_ID", "Title_EN", "Evidence"];
+      const csvCell = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+      const csv = [headers.join(","), ...actionItems.map((t, idx) => [
+        idx + 1, t.id, t.prio, calcPriorityScore(t), t.impact, t.urgency, t.effort, t.fn, t.horizon,
+        t.done ? "Done" : "Pending", t.title, t.title_en || t.title, t.evidence
+      ].map(csvCell).join(","))].join("\n");
+      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "ielts_bc_prioritized_action_plan.csv";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    document.getElementById("export-csv").addEventListener("click", () => {
+      const rows = getFilteredItems();
+      const headers = ["ID", "Severity", "Priority", "RecordType", "Category", "Theme", "Sentiment", "Date", "Handle", "Venue", "Views", "Likes", "Replies", "Reposts", "Summary_ID", "Summary_EN", "Verbatim_ID", "URL"];
+      const csvCell = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+      const csv = [headers.join(","), ...rows.map(r => [
+        r.id, r.severity, r.priority, r.recordType, r.category, r.theme, r.sentiment, r.date, r.handle, r.venue,
+        r.views ?? "", r.likes ?? "", r.replies ?? "", r.reposts ?? "", r.summary, r.summary_en, r.verbatim, r.url
+      ].map(csvCell).join(","))].join("\n");
+      const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "ielts_bc_threads_filtered.csv";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    function renderAll() {
+      renderStaticUI();
+      renderKPIs();
+      renderOverview();
+      renderExplorer();
+      renderThemes();
+      renderRCA();
+      renderBoard();
+      renderMarComm();
+    }
+
+    document.documentElement.lang = lang;
+    document.getElementById("lang-id").setAttribute("aria-pressed", String(lang === "id"));
+    document.getElementById("lang-en").setAttribute("aria-pressed", String(lang === "en"));
+    renderAll();
+  </script>
+</body>
+</html>
